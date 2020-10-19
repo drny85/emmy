@@ -9,7 +9,8 @@ const userSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    email: {type: String, required: true, lowercase: true, unique: [true, 'email is taken']}
+    email: {type: String, required: true, lowercase: true, unique: [true, 'email is taken']},
+    password: {type: String, required: true}
 }, {
     timestamps: true
 })
@@ -17,5 +18,13 @@ const userSchema = mongoose.Schema({
 userSchema.methods.matchPassword = async function(psw) {
     return await bycript.compare(psw, this.password)
 }
+
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) {
+        next()
+    }
+    const salt = await bycript.genSalt(10);
+    this.password = await bycript.hash(this.password, salt)
+})
 
 export default mongoose.model('User', userSchema)
