@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import { Divider, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux'
 import Loader from '../Loader';
 
 import axios from '../../utils/axios'
-import { useRef } from 'react';
+
 
 const initialValues = {
     name: '',
@@ -25,7 +25,7 @@ const options = [{id:1, title: 3}, {id:2, title: 6}, {id: 3, title: 0}]
 const ProductForm = () => {
 
     const dispatch = useDispatch()
-    const formRef = useRef()
+    
     const [uploading, setUploading] = useState(false)
     const [imageUrl, setImageUrl] = useState('')
 
@@ -86,15 +86,14 @@ const ProductForm = () => {
         }
     }
 
-    console.log(imageUrl)
     return (
-       <Form  onSubmit={handleSubmit}>
+       <Form onSubmit={handleSubmit}>
           
             <Grid container>
                 <Grid item sx={12} md={12}>
                    
                 <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
-               <Controls.Input name='description' value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
+               <Controls.Input name='description' inputProps={{multiline:true}} value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
                <Controls.Input name='price' value={values.price} error={errors.price} type='number' step='1' min='0' label='Price' onChange={handleInputChange} />
                
                <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />

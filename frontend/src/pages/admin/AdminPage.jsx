@@ -1,12 +1,22 @@
-import { Container, Typography } from '@material-ui/core'
+import { Container, Typography, Paper } from '@material-ui/core'
 import React from 'react'
 import ProductForm from '../../components/forms/ProductForm'
 
-const AdminPage = () => {
+import './Admin.css'
+
+const AdminPage = ({history}) => {
+
+    const goToPage = (page) => {
+        history.push('/admin/products')
+    }   
     return (
         <Container>
-            <Typography variant='h4' align='center'>Admin Page</Typography>
-            <ProductForm />
+           <Paper elevation={5} onClick={() => goToPage('products')} className='admin_tile'>
+               <div className="title">
+               <h4>Manage Products</h4>
+               </div>
+               
+           </Paper>
         </Container>
     )
 }

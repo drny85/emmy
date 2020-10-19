@@ -4,7 +4,8 @@ const initialState = {
     cartItems: [],
     loading: false,
     total: 0,
-    quantity: 0
+    quantity: 0,
+    error: null
 }
 
 export default (state = initialState, action) => {

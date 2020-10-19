@@ -3,13 +3,15 @@ import React, { useState, useEffect } from 'react'
 import { Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
+import Message from '../Message';
+
 
 const initialValues = {
     name: '',
     lastName:'',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirm: ''
     
 }
 
@@ -18,13 +20,17 @@ const SignupForm = () => {
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('name' in fieldValues)
-            temp.name = fieldValues.name ? "" : "This field is required."
+            temp.name = fieldValues.name ? "" : "Name is required."
+        if ('email' in fieldValues)
+        temp.email = fieldValues.email.length != 0 ? "": 'Email is required'
         if ('email' in fieldValues)
             temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
         if ('lastName' in fieldValues)
             temp.lastName = fieldValues.lastName.length > 3 ? "" : "Minimum 3 characters required."
         if ('password' in fieldValues)
-            temp.password = fieldValues.password.length != 0 ? "" : "This field is required."
+            temp.password = fieldValues.password.length != 0 ? "" : "Password is required."
+            if ('confirm' in fieldValues)
+            temp.confirm = fieldValues.confirm ===  fieldValues.password  ? "" : "Passwords do not match."
         setErrors({
             ...temp
         })
@@ -38,20 +44,21 @@ const SignupForm = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()){
-           
+           console.log(values)
             //resetForm()
         }
     }
     return (
        <Form onSubmit={handleSubmit}>
+            <Message type='error'>an error occured</Message>
             <Grid container>
                 <Grid item sx={12} md={12}>
-                   
                 <Controls.Input name='name' value={values.name} error={errors.name} label='First Name' onChange={handleInputChange} />
                <Controls.Input name='lastName' value={values.lastName} error={errors.lastName} label='Last Name' onChange={handleInputChange} />
                <Controls.Input name='email' value={values.email} error={errors.email} label='Email' onChange={handleInputChange} />
                <Controls.Input name='password' type='password' value={values.password} error={errors.password} label='Password' onChange={handleInputChange} />
-               <Controls.Select  />
+               <Controls.Input name='confirm' type='password' value={values.confirm} error={errors.confirm} label='Confirm Password' onChange={handleInputChange} />
+               {/* <Controls.Select  /> */}
                <div style={{marginTop: '15px'}}>
                         <Controls.Button
                             type="submit"

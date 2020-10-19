@@ -1,5 +1,5 @@
 import { ADD_PRODUCT, GET_PRODUCTS, RESET_PRODUCT, SET_LOADING, SET_PRODUCT } from "./types"
-import products from '../data/products'
+
 import { AccordionActions } from "@material-ui/core"
 
 import axios from '../utils/axios'
@@ -10,7 +10,6 @@ const getProducts = () => async dispatch => {
         setLoading()
     
        const {data} = await axios.get('/api/products')
-       console.log(data)
 
         dispatch({ type: GET_PRODUCTS, payload: data })
 

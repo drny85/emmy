@@ -22,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
 
     },
 
+    container: {
+        marginTop: '50px',
+        
+    
+
+    }
+
 }))
 
 
@@ -77,15 +84,15 @@ const ProductDetails = ({match}) => {
   
 
     return (
-        <Container style={{ marginTop: '20px' }}>
+       <Container className={classes.container}>
             <Paper>
                 <Grid container>
-                    <Grid item sx={12} sm={5} md={4}>
+                    <Grid item sx={12} sm={5} md={4} lg={5}>
                         <Card>
                             <CardMedia className='imgHover' onClick={handleImageClick} component='img' height='400px' style={{ maxHeight: '400px' }} image={product.imageUrl} />
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={5} md={4}>
+                    <Grid item xs={12} sm={5} md={4} lg={5}>
                         <List>
                             <ListItem>
                                 <Typography style={{ textTransform: 'capitalize' }} variant='h5'>{product.name}</Typography>
@@ -136,6 +143,7 @@ const ProductDetails = ({match}) => {
                     </Grid>
                 </Grid>
             </Paper>
+            <Paper>
             {product.images && (
                 <Paper>
 
@@ -178,8 +186,9 @@ const ProductDetails = ({match}) => {
                 </DialogActions>
 
             </Dialog>
-
-        </Container>
+            </Paper>
+            </Container>
+      
     )
 }
 

@@ -47,14 +47,14 @@ const Home = () => {
     }, [dispatch])
 
     return (
-        <div className="home_container">
-            {products.length > 0 ? (<div className="home_grid">
-                {products.map(product => (<ProductCard key={product._id} id={product._id} product={product} onClick={() => goToDetails(product._id)} />))}
-            </div>):(
-              <div className="">
-                  <h4>No products available</h4>
-              </div>
-            )}
+        // <div className="home_container">
+        //     {products.length > 0 ? (<div className="home_grid">
+        //         {products.map(product => (<ProductCard key={product._id} id={product._id} product={product} onClick={() => goToDetails(product._id)} />))}
+        //     </div>):(
+        //       <div className="">
+        //           <h4>No products available</h4>
+        //       </div>
+        //     )}
             
 
 
@@ -62,19 +62,19 @@ const Home = () => {
 
 
 
-        </div>
+        // </div>
         // <Container className={classes.root} spacing={1}>
-        //     <Grid container className={classes.grid} item xs={12} spacing={2}>
+            <Grid container item xs={12} spacing={4}>
 
-        //         {products.map(product => {
-        //             return <Grid key={product.id} item xs={12} sm={6} md={4}>
-        //                 <ProductCard id={product.id} product={product} onClick={() => goToDetails(product.id)} />
-        //             </Grid>
-        //         })
-        //         }
+                {products.map(product => {
+                    return <Grid key={product._id} item xs={12} sm={6} md={4} lg={3}>
+                        <ProductCard id={product._id} product={product} onClick={() => goToDetails(product._id)} />
+                    </Grid>
+                })
+                }
 
 
-        //     </Grid>
+            </Grid>
 
         // </Container>
     )

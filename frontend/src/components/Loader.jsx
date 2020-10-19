@@ -7,7 +7,13 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignSelf:'center',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      position:'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'traslate(-50%, -50%)'
+      
+      
     
     },
   }));

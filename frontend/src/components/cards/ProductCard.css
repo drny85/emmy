@@ -3,11 +3,10 @@
   flex-direction: column;
   height: 22rem;
   background-color: rgb(236, 231, 231);
-  min-width: 22rem;
-  margin: 1rem;
-
+  min-width: 300px;
   border-radius: 10px;
   flex: 1;
+  margin: 1rem;
   position: relative;
 }
 

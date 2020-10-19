@@ -7,18 +7,25 @@
   box-sizing: border-box;
 }
 
-body,
+
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: calc(100vh - 70px);
+ 
+}
 html {
-  font-family: "Montserrat";
-  width: 100vw;
-  height: 100vh;
-  min-width: 100vw;
+  font-family: "Montserrat", sans-serif;;
+  height:100%;
+  scroll-behavior: smooth;
+  
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+header {
+  margin-top: 70px;
 }
+
 
 .product_card {
   transition: transform 200ms ease-in;
