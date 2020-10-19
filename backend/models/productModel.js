@@ -6,7 +6,11 @@ const productSchema = mongoose.Schema({
     price: {type: Number, required: true},
     imageUrl: {type: String, required: true},
     available: {type: Boolean, required: true, default: true},
-    estimatedDelivery: {type: Number}
-})
+    estimatedDelivery: {type: Number},
+    user: {type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true}
+
+}, {timestamps: true})
 
 export default mongoose.model('Product', productSchema)

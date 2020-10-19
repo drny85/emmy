@@ -9,6 +9,9 @@ import path from 'path'
 //routes import
 import uploadRoutes from './routes/uploadRoutes.js'
 import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+
+import { errorHandler, notFound } from './middleware/errorMidleware.js'
 
 dotenv.config()
 
@@ -30,6 +33,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use('/api/products', productRoutes)
 
 app.use('/api/upload', uploadRoutes)
+app.use('/api/users', userRoutes)
 
 if (process.env.NODE_ENV ==='production') {
     app.use(express.static(path.join(__dirname, '/frontend/build')))
@@ -40,9 +44,15 @@ if (process.env.NODE_ENV ==='production') {
 } else {
     app.get('/', (req, res) => {
         res.send('Hello')
+      
     })
     
 }
+
+
+// errors middleware
+app.use(notFound)
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 5000;
