@@ -1,22 +1,85 @@
 import asyncHandler from 'express-async-handler'
-import bscript from 'bcryptjs'
-
 import User from '../models/userModel.js'
-import { json } from 'express'
+
 export const signUp = asyncHandler(async (req, res) => {
     const {email, password, name, lastName} = req.body
+    email.trim().toLowerCase()
 
+    const found = await User.findOne({email})
+    if (found) {
+        res.status(400)
+        throw new Error(`email: ${email} is already taken`)
+
+    }
     const user = new User({name, password, email, lastName})
 
-  
+    const token = user.generateToken(user._id)
+    
     const userSaved = await user.save()
+    const {_id, isAdmin} = userSaved
     if (userSaved) {
-        return res.json(userSaved)
+     return res.status(200).json({_id, name, lastName, email, isAdmin,token})
     }
     
     res.status(400)
     throw new Error('an error ocurred')
 
 
+})
+
+export const getUserById = asyncHandler(async (req, res, next) => {
+    const id = req.params.id;
+    const user = await User.findById(id).select('-password')
+    if (user) {
+        return res.json(user)
+    } else {
+        res.status(400)
+        throw new Error('no user found')
+    }
+})
+
+
+export const login = asyncHandler(async(req, res, next) => {
+    const {email, password}= req.body
+
+   
+    email.trim().toLowerCase()
+    const found = await User.findOne({email})
+   
+    if(!found) {
+        res.status(400)
+        throw new Error('invalid email or password')
+    }
+    
+    const match = await found.matchPassword(password)
+    if (!match) {
+        res.status(400)
+        throw new Error('invalid email or password')
+    }
+    const token = found.generateToken(found._id)
+    return res.json({
+        _id: found._id,
+        name:found.name,
+        email: found.email,
+        lastName: found.lastName,
+        token
+    })
+
+})
+
+export const getUserProfile = asyncHandler(async(req, res, next) => {
+    const user = await User.findById(req.user._id).select('-password')
+    if (user) {
+        return res.json({
+            _id: user._id,
+            name: user.name,
+            lastName: user.lastName,
+            email: user.email,
+            isAdmin: user.isAdmin
+        })
+    } else {
+        res.status(401)
+        throw new Error('not user found')
+    }
 })
 

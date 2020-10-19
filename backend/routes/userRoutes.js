@@ -3,10 +3,14 @@ import express from 'express'
 
 const router = express.Router()
 
-import {signUp} from '../controllers/userController.js'
+import {getUserById, getUserProfile, login, signUp} from '../controllers/userController.js'
+import { protect } from '../middleware/protectMiddleware.js'
 
 
-router.route('/').post(signUp)
+router.route('/signup').post(signUp)
+router.route('/login').post(login)
+router.get('/profile', protect, getUserProfile)
+router.route('/:id').get(getUserById)
 
 
 

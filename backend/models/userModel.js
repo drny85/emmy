@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bycript from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const userSchema = mongoose.Schema({
     name: { type: String, required: [true, 'name is required'] },
@@ -17,6 +18,10 @@ const userSchema = mongoose.Schema({
 
 userSchema.methods.matchPassword = async function(psw) {
     return await bycript.compare(psw, this.password)
+}
+
+userSchema.methods.generateToken = function(id) {
+    return jwt.sign({id},process.env.JWT_SECRET, {expiresIn: '30d'})
 }
 
 userSchema.pre('save', async function(next) {
