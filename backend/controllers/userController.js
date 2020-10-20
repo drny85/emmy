@@ -29,6 +29,7 @@ export const signUp = asyncHandler(async (req, res) => {
 
 export const getUserById = asyncHandler(async (req, res, next) => {
     const id = req.params.id;
+    console.log(id)
     const user = await User.findById(id).select('-password')
     if (user) {
         return res.json(user)
@@ -39,12 +40,12 @@ export const getUserById = asyncHandler(async (req, res, next) => {
 })
 
 
-export const login = asyncHandler(async(req, res, next) => {
+export const login = asyncHandler( async(req, res, next) => {
     const {email, password}= req.body
 
-   
-    email.trim().toLowerCase()
+    console.log(req.body)
     const found = await User.findOne({email})
+    
    
     if(!found) {
         res.status(400)
@@ -62,6 +63,7 @@ export const login = asyncHandler(async(req, res, next) => {
         name:found.name,
         email: found.email,
         lastName: found.lastName,
+        isAdmin: found.isAdmin,
         token
     })
 

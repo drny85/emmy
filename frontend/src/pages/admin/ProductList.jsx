@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
   });
 
-const ProductList = () => {
+const ProductList = ({history}) => {
     const classes = useStyles();
     const {products, loading} = useSelector(state => state.productsData)
     
@@ -80,7 +80,7 @@ const ProductList = () => {
                         <TableCell align='center'>{product.estimatedDelivery}</TableCell>
                         <TableCell  align='center'>
                             <>
-                            <EditOutlinedIcon style={{marginRight: '15px'}} />
+                            <EditOutlinedIcon style={{marginRight: '15px'}} onClick={() => history.push(`/admin/product/edit/${product._id}`)} />
                             <DeleteForeverIcon  htmlColor='red' onClick={() => handleDelete(product._id)} /></>
                         </TableCell>
                         

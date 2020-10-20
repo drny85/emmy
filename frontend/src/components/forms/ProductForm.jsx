@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState } from 'react'
 import { Divider, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
@@ -36,20 +36,20 @@ const ProductForm = () => {
         if ('description' in fieldValues)
             temp.description = fieldValues.description.length > 10 ? "" : "Minimum 10 characters required."
         if ('price' in fieldValues)
-            temp.price = fieldValues.price.length != 0 ? "" : "Price is required"
+            temp.price = fieldValues.price.length !== 0 ? "" : "Price is required"
             
             if('estimatedDelivery' in fieldValues)
-            temp.estimatedDelivery = fieldValues.estimatedDelivery.length != 0 ? "": 'Estimated delivery is required'
+            temp.estimatedDelivery = fieldValues.estimatedDelivery.length !== 0 ? "": 'Estimated delivery is required'
        
         setErrors({
             ...temp
         })
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
-    const {values, handleInputChange, errors, setErrors, resetForm, setValues} = useForm(initialValues, true, validate)
+    const {values, handleInputChange, errors, setErrors, resetForm} = useForm(initialValues, true, validate)
 
     const handleImage = async e => {
         const file = e.target.files[0];
@@ -93,7 +93,7 @@ const ProductForm = () => {
                 <Grid item sx={12} md={12}>
                    
                 <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
-               <Controls.Input name='description' inputProps={{multiline:true}} value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
+               <Controls.Input name='description' value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
                <Controls.Input name='price' value={values.price} error={errors.price} type='number' step='1' min='0' label='Price' onChange={handleInputChange} />
                
                <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />

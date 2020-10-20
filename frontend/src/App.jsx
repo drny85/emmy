@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
@@ -14,6 +14,12 @@ import AdminPage from './pages/admin/AdminPage';
 import ProductList from './pages/admin/ProductList';
 import NavBar from './components/nav/NavBar';
 import AddProduct from './pages/admin/AddProduct';
+import {useDispatch} from 'react-redux'
+import { autoLoginUser } from './actions/userActions';
+import ProfilePage from './pages/auth/ProfilePage';
+import Login from './pages/auth/Login';
+import ProductEdit from './pages/admin/ProductEdit';
+import CategoryPage from './pages/categories/CategoryPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -33,6 +39,15 @@ const theme = createMuiTheme({
 });
 
 function App() {
+const dispatch = useDispatch()
+useEffect(() => {
+   const user = localStorage.getItem('emmyUserData');
+   if (user && user !== undefined) {
+     const data = JSON.parse(user)
+     
+     dispatch(autoLoginUser(data))
+   }
+}, [dispatch])
   //BEM
   return (
 
@@ -45,10 +60,14 @@ function App() {
         <Switch>
           <Route path="/test" component={Test} />
           <Route path="/cart" component={ShoppingCartScreen} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route path="/admin/category" component={CategoryPage} />
           <Route path="/admin/products" component={ProductList} />
+          <Route path="/admin/product/edit/:id" component={ProductEdit} />
           <Route path="/admin/product" component={AddProduct} />
           <Route path="/product/:id" component={ProductDetails} />
           <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
           <Route path="/admin" component={AdminPage} />
           <Route exact path="/" component={Home} />
         </Switch>

@@ -10,6 +10,7 @@ import path from 'path'
 import uploadRoutes from './routes/uploadRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js'
 
 import { errorHandler, notFound } from './middleware/errorMidleware.js'
 
@@ -34,6 +35,7 @@ app.use('/api/products', productRoutes)
 
 app.use('/api/upload', uploadRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/admin/category', categoryRoutes)
 
 if (process.env.NODE_ENV ==='production') {
     app.use(express.static(path.join(__dirname, '/frontend/build')))

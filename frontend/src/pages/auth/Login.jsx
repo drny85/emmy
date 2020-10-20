@@ -1,39 +1,39 @@
 
-import React from 'react'
-import { Grid } from '@material-ui/core';
-import Controls from '../controls/Controls'
-import { useForm, Form } from '../useForm'
+import React, { useEffect } from 'react'
+import { Button, Container, Divider, Grid, Typography } from '@material-ui/core';
+import Controls from '../../components/controls/Controls'
+import { useForm, Form } from '../../components/useForm'
 import {useDispatch, useSelector} from 'react-redux'
-import Message from '../Message';
-import { signup } from '../../actions/userActions';
+import Message from '../../components/Message'
+import { login } from '../../actions/userActions';
+import Loader from '../../components/Loader';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const initialValues = {
-    name: '',
-    lastName:'',
+    
     email: '',
     password: '',
-    confirm: ''
+    
     
 }
 
-const SignupForm = () => {
+const Login = ({location}) => {
     const dispatch = useDispatch()
-    const { error} = useSelector(state => state.userData)
+    const history = useHistory()
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const { error, user, loading} = useSelector(state => state.userData)
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('name' in fieldValues)
-            temp.name = fieldValues.name ? "" : "Name is required."
+       
         if ('email' in fieldValues)
         temp.email = fieldValues.email.length !== 0 ? "": 'Email is required'
         if ('email' in fieldValues)
             temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-        if ('lastName' in fieldValues)
-            temp.lastName = fieldValues.lastName.length > 3 ? "" : "Minimum 3 characters required."
+        
         if ('password' in fieldValues)
             temp.password = fieldValues.password.length !== 0 ? "" : "Password is required."
-            if ('confirm' in fieldValues)
-            temp.confirm = fieldValues.confirm ===  fieldValues.password  ? "" : "Passwords do not match."
+            
         setErrors({
             ...temp
         })
@@ -47,23 +47,34 @@ const SignupForm = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()){
-           console.log(values)
-            dispatch(signup(values))
-           resetForm()
+          
+            dispatch(login(values))
+           //resetForm()
         }
     }
 
+    useEffect(() => {
+        if (user) {
+         history.push(redirect)
+        }
+    }, [user])
+
+    if (loading) return <Loader />
+
     return (
+        <Container style={{marginTop:'30px'}}>
+            <Typography variant='h4' align='center'>Login</Typography>
+       
        <Form onSubmit={handleSubmit}>
             
-            <Grid container>
-    {error && <Message type='danger'>{error}</Message>}
-                <Grid item sx={12} md={12}>
-                <Controls.Input name='name' value={values.name} error={errors.name} label='First Name' onChange={handleInputChange} />
-               <Controls.Input name='lastName' value={values.lastName} error={errors.lastName} label='Last Name' onChange={handleInputChange} />
+            <Grid container alignContent='center' justify='center'>
+    {error && <Message type='error'>{error}</Message>}
+                <Grid item sx={12} md={12} lg={8}>
+               
+               
                <Controls.Input name='email' value={values.email} error={errors.email} label='Email' onChange={handleInputChange} />
                <Controls.Input name='password' type='password' value={values.password} error={errors.password} label='Password' onChange={handleInputChange} />
-               <Controls.Input name='confirm' type='password' value={values.confirm} error={errors.confirm} label='Confirm Password' onChange={handleInputChange} />
+              
                {/* <Controls.Select  /> */}
                <div style={{marginTop: '15px'}}>
                         <Controls.Button
@@ -81,7 +92,14 @@ const SignupForm = () => {
 
            
        </Form>
+       <Divider light />
+       <Grid container>
+           <Grid item>
+               <p style={{padding: '12px 0px', color: 'GrayText'}}>Do not have an account? <span style={{marginLeft: '10px'}}><Link to='/signup'>Sign Up</Link></span></p>
+           </Grid>
+       </Grid>
+       </Container>
     )
 }
 
-export default SignupForm
+export default Login

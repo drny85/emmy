@@ -26,6 +26,9 @@ header {
   margin-top: 70px;
 }
 
+.bold {
+  font-weight: 600;
+}
 
 .product_card {
   transition: transform 200ms ease-in;

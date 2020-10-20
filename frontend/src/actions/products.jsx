@@ -42,10 +42,19 @@ const getProductById = (id) => async dispatch => {
 
 }
 
+const editProduct = (product) => async dispatch => {
+    try {
+        
+    } catch (error) {
+        console.error(error)
+
+    }
+}
+
 const resetProduct = () => dispatch => {
     dispatch({type: RESET_PRODUCT})
 }
 
 const setLoading = () => dispath => dispath({ type: SET_LOADING })
 
-export { getProducts, addProduct, getProductById , resetProduct}
+export { getProducts, addProduct, getProductById , resetProduct, editProduct}

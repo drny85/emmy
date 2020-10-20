@@ -11,7 +11,8 @@ const HamNav = () => {
 
     const input = useRef()
     const { cartItems } = useSelector(state => state.cartData)
-
+    const {user, loading} = useSelector(state => state.userData)
+    
     const checkInput = () => {
 
         if (input.current.checked) {
@@ -36,7 +37,7 @@ const HamNav = () => {
             <li><Link onClick={checkInput} to="/">Home</Link></li>
                                 <li><Link onClick={checkInput} to="/test">Overview</Link></li>
                                 <li><Link onClick={checkInput} to="/admin">Admin</Link></li>
-                                <li><Link onClick={checkInput} to="/signup">Login</Link></li>
+      <li><Link onClick={checkInput} to="/signup">{user && !loading ? user.name : 'Login'}</Link></li>
 
                               
                 </ul>
@@ -50,8 +51,9 @@ const HamNav = () => {
         <li style={{marginRight: 'auto', marginLeft: '70px'}}><Link onClick={checkInput} to="/">EmmyDash Artsy</Link></li>
             <li><Link onClick={checkInput} to="/">Home</Link></li>
                                 <li><Link onClick={checkInput} to="/test">Overview</Link></li>
-                                <li><Link onClick={checkInput} to="/admin">Admin</Link></li>
-                                <li><Link onClick={checkInput} to="/signup">Login</Link></li>
+                                {user && user.isAdmin && (<li><Link onClick={checkInput} to="/admin">Admin</Link></li>)}
+                                
+                                <li><Link className="capitalize bold" onClick={checkInput} to={user && !loading ? "/profile" : "/login"}>{user && !loading ? user.name : 'Login'}</Link></li>
 
                                 <Hidden smDown>
                                     <li><Link onClick={checkInput} to="/cart"> <Badge badgeContent={cartItems.length} color="secondary">

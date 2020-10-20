@@ -1,4 +1,4 @@
-import { Container, Typography, Paper } from '@material-ui/core'
+import { Container, Typography, Paper, Grid } from '@material-ui/core'
 import React from 'react'
 import ProductForm from '../../components/forms/ProductForm'
 
@@ -7,16 +7,47 @@ import './Admin.css'
 const AdminPage = ({history}) => {
 
     const goToPage = (page) => {
-        history.push('/admin/products')
+        history.push(page)
     }   
     return (
         <Container>
-           <Paper elevation={5} onClick={() => goToPage('products')} className='admin_tile'>
-               <div className="title">
-               <h4>Manage Products</h4>
-               </div>
+            <Grid container>
+                <Grid item xs={12} sm={6} lg={4}>
+                    <Paper elevation={5} onClick={() => goToPage('/admin/products')} className='admin_tile'>
+                        <div className="title">
+                            <h4>Manage Products</h4>
+                        </div>
                
-           </Paper>
+                    </Paper>
+            </Grid>
+                <Grid item xs={12} sm={6} lg={4}>
+                    <Paper elevation={5} onClick={() => goToPage('/admin/category')} className='admin_tile'>
+                        <div className="title">
+                            <h4>Manage Categories</h4>
+                        </div>
+                    
+                </Paper>
+                </Grid>
+                <Grid item xs={12} sm={6} lg={4}>
+                    <Paper elevation={5} onClick={() => goToPage('products')} className='admin_tile'>
+                        <div className="title">
+                            <h4>Manage Orders</h4>
+                        </div>
+                    
+                </Paper>
+                </Grid>
+                <Grid item xs={12} sm={6} lg={4}>
+                    <Paper elevation={5} onClick={() => goToPage('products')} className='admin_tile'>
+                        <div className="title">
+                            <h4>Manage Users</h4>
+                        </div>
+                    
+                </Paper>
+                </Grid>
+                
+            </Grid>
+           
+           
         </Container>
     )
 }
