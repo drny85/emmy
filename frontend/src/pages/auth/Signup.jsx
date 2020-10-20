@@ -1,15 +1,20 @@
 import { Container, Divider, Grid, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SignupForm from '../../components/forms/SignupForm'
-
-
-
-
+import {useDispatch, useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 
 
 const Signup = () => {
+    const history = useHistory()
+    const {user} = useSelector(state => state.userData)
+    console.log(user)
 
-
+    useEffect(() => {
+        if (user) {
+            history.push('/')
+        }
+    }, user)
     
     return (
         <Container>

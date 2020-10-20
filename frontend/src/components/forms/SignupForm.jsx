@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
+import {useDispatch} from 'react-redux'
 import Message from '../Message';
+import { signup } from '../../actions/userActions';
 
 
 const initialValues = {
@@ -16,6 +18,7 @@ const initialValues = {
 }
 
 const SignupForm = () => {
+    const dispatch = useDispatch()
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -45,12 +48,14 @@ const SignupForm = () => {
         e.preventDefault()
         if (validate()){
            console.log(values)
-            //resetForm()
+            dispatch(signup(values))
+           resetForm()
         }
     }
+
     return (
        <Form onSubmit={handleSubmit}>
-            <Message type='error'>an error occured</Message>
+            
             <Grid container>
                 <Grid item sx={12} md={12}>
                 <Controls.Input name='name' value={values.name} error={errors.name} label='First Name' onChange={handleInputChange} />

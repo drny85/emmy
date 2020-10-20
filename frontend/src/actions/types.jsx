@@ -8,3 +8,9 @@ export const RESET_PRODUCT ='RESET_PRODUCT'
 export const SET_PRODUCT ='SET_PRODUCT'
 
 export const ADD_TO_CART = 'ADD_TO_CART'
+
+// user constants
+export const USER_SIGN_UP = 'USER_SIGN_UP'
+export const USER_LOGOUT = 'USER_LOGOUT'
+export const USER_ERROR = 'USER_ERROR'
+export const USER_LOGIN = 'USER_LOGIN'
