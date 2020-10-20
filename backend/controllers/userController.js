@@ -31,8 +31,9 @@ export const getUserById = asyncHandler(async (req, res, next) => {
     const id = req.params.id;
     console.log(id)
     const user = await User.findById(id).select('-password')
+    const token = user.generateToken(user._id)
     if (user) {
-        return res.json(user)
+        return res.json({_id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin, lastName: user.lastName, token})
     } else {
         res.status(400)
         throw new Error('no user found')

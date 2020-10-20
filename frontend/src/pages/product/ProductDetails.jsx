@@ -1,15 +1,15 @@
 import { Card, CardMedia, Container, Grid, Typography, Paper, List, ListItem, ListItemText, ListItemIcon, Button, Radio, RadioGroup, FormControlLabel, Divider, Dialog, DialogContent, makeStyles, DialogTitle, DialogActions, useTheme } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../actions/shoopingCart';
+import { addToCart } from '../../reduxStore/actions/shoopingCart';
 import CartItem from '../../models/CartItem';
 import { useEffect } from 'react';
-import { getProductById, resetProduct } from '../../actions/products';
+import { getProductById, resetProduct } from '../../reduxStore/actions/products';
 import Loader from '../../components/Loader';
 
 

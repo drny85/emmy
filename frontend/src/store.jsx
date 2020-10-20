@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
-import categoriesReducer from './reducers/categoriesReducer.'
-import productsReducer from './reducers/productsReducer'
-import cartReducer from './reducers/shoppingCartReducer'
-import userReducer from './reducers/userReducer'
+import categoriesReducer from './reduxStore/reducers/categoriesReducer.'
+import productsReducer from './reduxStore/reducers/productsReducer'
+import cartReducer from './reduxStore/reducers/shoppingCartReducer'
+import userReducer from './reduxStore/reducers/userReducer'
 
 
 

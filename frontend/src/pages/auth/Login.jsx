@@ -5,7 +5,7 @@ import Controls from '../../components/controls/Controls'
 import { useForm, Form } from '../../components/useForm'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../../components/Message'
-import { login } from '../../actions/userActions';
+import { login } from '../../reduxStore/actions/userActions';
 import Loader from '../../components/Loader';
 import { Link, useHistory } from 'react-router-dom';
 

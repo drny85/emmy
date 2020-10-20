@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Controls from '../../components/controls/Controls'
 import { Form, useForm } from '../../components/useForm'
 import Loader from '../../components/Loader'
-import {editProduct, getProductById, resetProduct} from '../../actions/products'
+import {editProduct, getProductById, resetProduct} from '../../reduxStore/actions/products'
 
 const options = [{id:1, title: 3}, {id:2, title: 6}, {id: 3, title: 0}]
 const initialValues = {

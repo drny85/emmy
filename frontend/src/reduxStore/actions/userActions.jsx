@@ -1,5 +1,5 @@
-import axios from '../utils/axios'
-import responseError from '../utils/responseError';
+import axios from '../../utils/axios'
+import responseError from '../../utils/responseError';
 import { SET_LOADING, USER_ERROR, USER_LOGIN, USER_LOGOUT, USER_SIGN_UP } from './types';
 export const signup = ({name, lastName, email, password}) => async  dispatch => {
     

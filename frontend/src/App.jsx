@@ -15,7 +15,7 @@ import ProductList from './pages/admin/ProductList';
 import NavBar from './components/nav/NavBar';
 import AddProduct from './pages/admin/AddProduct';
 import {useDispatch} from 'react-redux'
-import { autoLoginUser } from './actions/userActions';
+import { autoLoginUser } from './reduxStore/actions/userActions'
 import ProfilePage from './pages/auth/ProfilePage';
 import Login from './pages/auth/Login';
 import ProductEdit from './pages/admin/ProductEdit';

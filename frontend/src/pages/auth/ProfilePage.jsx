@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@material-ui/core'
 import React from 'react'
-import { logout } from '../../actions/userActions'
+import { logout } from '../../reduxStore/actions/userActions'
 import {useDispatch} from 'react-redux'
 
 const ProfilePage = () => {

@@ -1,8 +1,6 @@
 import { ADD_PRODUCT, GET_PRODUCTS, RESET_PRODUCT, SET_LOADING, SET_PRODUCT } from "./types"
 
-import { AccordionActions } from "@material-ui/core"
-
-import axios from '../utils/axios'
+import axios from '../../utils/axios'
 
 
 const getProducts = () => async dispatch => {

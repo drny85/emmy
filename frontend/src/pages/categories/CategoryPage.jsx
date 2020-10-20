@@ -3,7 +3,7 @@ import React from 'react'
 import {Form, useForm} from '../../components/useForm'
 import Controls from '../../components/controls/Controls'
 import {useDispatch, useSelector} from  'react-redux'
-import { addCategory } from '../../actions/categoryActions'
+import { addCategory } from '../../reduxStore/actions/categoryActions'
 import Message from '../../components/Message'
 
 const CategoryPage = () => {
@@ -24,13 +24,16 @@ const CategoryPage = () => {
             return Object.values(temp).every(x => x === "")
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
         if (validate()){
            
-           dispatch(addCategory(values.name))
-          
-           resetForm()
+          const submmited = await dispatch(addCategory(values.name))
+          console.log(submmited)
+          if (submmited) {
+            resetForm()
+          }
+           
         }
     }
  

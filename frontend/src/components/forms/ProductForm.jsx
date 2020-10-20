@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Divider, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
-import {addProduct} from '../../actions/products'
+import {addProduct} from '../../reduxStore/actions/products'
 import {useDispatch} from 'react-redux'
 import Loader from '../Loader';
 

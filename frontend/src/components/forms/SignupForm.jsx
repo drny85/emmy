@@ -5,7 +5,7 @@ import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../Message';
-import { signup } from '../../actions/userActions';
+import { signup } from '../../reduxStore/actions/userActions';
 
 
 const initialValues = {

@@ -15,7 +15,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import {getProducts} from '../../actions/products'
+import {getProducts} from '../../reduxStore/actions/products'
 import Loader from '../../components/Loader';
 import { Link } from 'react-router-dom';
 

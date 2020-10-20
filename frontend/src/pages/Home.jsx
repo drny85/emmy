@@ -6,7 +6,7 @@ import Product from '../components/Product';
 
 import axios from '../utils/axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { getProducts } from '../actions/products';
+import { getProducts } from '../reduxStore/actions/products';
 import ProductCard from '../components/cards/ProductCard';
 import { useHistory } from 'react-router-dom';
 import './Home.css'
