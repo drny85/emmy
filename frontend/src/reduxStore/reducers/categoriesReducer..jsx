@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, CATEGORY_ERROR, GET_CATEGORIES } from "../actions/types"
+import { ADD_CATEGORY, CATEGORY_ERROR, CLEAR_ERROR, DELETE_CATEGORY, GET_CATEGORIES, UPDATE_CATEGORY } from "../actions/types"
 
 
 const initialState = {
@@ -31,6 +31,31 @@ const categoriesReducer = (state= initialState, action) => {
                 error: null,
                 loading: false,
                 categories: action.payload
+            }
+        case UPDATE_CATEGORY:
+            const newCategories = state.categories.filter(c => c._id !== action.payload._id)
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                categories: [action.payload.data, ...newCategories]
+                
+            }
+
+            case DELETE_CATEGORY:
+                
+                return {
+                    ...state,
+                    loading: false,
+                    error: false,
+                    categories: state.categories.filter(c => c._id !== action.payload)
+                    
+                }
+
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                error: null
             }
     
         default:

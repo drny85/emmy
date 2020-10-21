@@ -28,8 +28,8 @@ export const signUp = asyncHandler(async (req, res) => {
 })
 
 export const getUserById = asyncHandler(async (req, res, next) => {
-    const id = req.params.id;
-    console.log(id)
+    const id = req.params ? req.params.id : null
+    console.log('ID',id)
     const user = await User.findById(id).select('-password')
     const token = user.generateToken(user._id)
     if (user) {

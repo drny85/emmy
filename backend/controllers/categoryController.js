@@ -22,3 +22,24 @@ export const getCategories = asyncHandler( async(req, res, next) => {
     const categories = await Category.find();
     return res.json(categories)
 })
+
+export const updateCategory = asyncHandler( async(req, res, next)=> {
+    const id = req.params.id;
+    const {name} = req.body
+    const found = await Category.findByIdAndUpdate(id, {name}, {new: true});
+   
+    if (found) {
+        
+      console.log(found)
+       return res.status(200).json(found)
+    } else {
+        res.status(400)
+        throw new Error('not category found')
+    }
+})
+
+export const deleteCategory = asyncHandler(async(req, res, next) => {
+    const id = req.params.id
+    await Category.findByIdAndDelete(id)
+    return res.json(true)
+})

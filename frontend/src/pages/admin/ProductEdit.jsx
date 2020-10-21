@@ -27,16 +27,7 @@ const ProductEdit = ({match}) => {
     
     const [uploading, setUploading] = useState(false)
     const [imageUrl, setImageUrl] = useState('')
-    const [initialValues, setInitialValues] = useState({
-        name: '',
-        description:'',
-        price: '',
-        imageUrl: '',
-        estimatedDelivery: '',
-        available: true
-       
-    })
-
+   
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('name' in fieldValues)
@@ -57,7 +48,7 @@ const ProductEdit = ({match}) => {
             return Object.values(temp).every(x => x === "")
     }
 
-    const {values, handleInputChange, errors, setErrors, resetForm} = useForm(initialValues, true, validate)
+    const {values, handleInputChange, errors, setErrors, resetForm, setValues} = useForm(initialValues, true, validate)
 
     const handleImage = async e => {
         const file = e.target.files[0];
@@ -98,14 +89,15 @@ const ProductEdit = ({match}) => {
       
            dispatch(getProductById(productId))
            if(product) {
-               setInitialValues(product)
+               setValues({...product})
            }
         //    setInitialValues(product)
         
         return () => {
             dispatch(resetProduct())
         }
-    }, [productId, dispatch, getProductById])
+    }, [dispatch, productId, initialValues])
+    console.log(initialValues)
 
     if (loading && !product) return <Loader />
     return (
@@ -116,18 +108,18 @@ const ProductEdit = ({match}) => {
           <Grid container>
               <Grid item sx={12} md={12}>
                  
-              <Controls.Input name='name' className='capitalize' value={product?.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
-             <Controls.Input name='description' value={product?.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
-             <Controls.Input name='price' value={product?.price} error={errors.price} type='number' step='1' min='0' label='Price' onChange={handleInputChange} />
+              <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
+             <Controls.Input name='description' value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
+             <Controls.Input name='price' value={values.price} error={errors.price} type='number' step='1' min='0' label='Price' onChange={handleInputChange} />
              
              <Controls.Input  name='imageUrl' label='Image'  type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />
              
-             {uploading ? <Loader /> : (<Controls.Select name='estimatedDelivery' value={product?.estimatedDelivery} error={errors.estimatedDelivery} label='Estimated Delivery Days' onChange={handleInputChange} options={options} />) }
+             {uploading ? <Loader /> : (<Controls.Select name='estimatedDelivery' value={values.estimatedDelivery} error={errors.estimatedDelivery} label='Estimated Delivery Days' onChange={handleInputChange} options={options} />) }
              <Divider light />
              <div style={{marginTop: '15px'}}>
                       <Controls.Button
                           type="submit"
-                          text="Add Product" />
+                          text="Update Product" />
                       <Controls.Button
                           text="Reset Form"
                           color="default"
