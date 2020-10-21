@@ -1,5 +1,5 @@
 import responseError from "../../utils/responseError"
-import { ADD_CATEGORY, CATEGORY_ERROR, SET_LOADING } from "./types"
+import { ADD_CATEGORY, CATEGORY_ERROR, GET_CATEGORIES, SET_LOADING } from "./types"
 import axios from '../../utils/axios'
 
 export const addCategory = name => async (dispatch, getState )=> {
@@ -13,7 +13,7 @@ export const addCategory = name => async (dispatch, getState )=> {
                 Authorization: `Bearer ${user.token}`
             }
         }
-       const {data} = await axios.post('/api/admin/category', {name}, config)
+       const {data} = await axios.post('/api/categories', {name}, config)
         dispatch({type: ADD_CATEGORY, payload: data})
         return true
     } catch (error) {
@@ -21,6 +21,18 @@ export const addCategory = name => async (dispatch, getState )=> {
         dispatch({type: CATEGORY_ERROR, payload: responseError(error)})
         return false
     }
+}
+
+export const getCategories = () => async dispatch => {
+    try {
+        setLoading()
+        const {data} = await axios.get('/api/categories')
+        dispatch({type: GET_CATEGORIES, payload: data})
+    } catch (error) {
+        console.error(error)
+        dispatch({type: CATEGORY_ERROR, payload: responseError(error)})
+    }
+   
 }
 
 

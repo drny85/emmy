@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, CATEGORY_ERROR } from "../actions/types"
+import { ADD_CATEGORY, CATEGORY_ERROR, GET_CATEGORIES } from "../actions/types"
 
 
 const initialState = {
@@ -24,6 +24,13 @@ const categoriesReducer = (state= initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+        case GET_CATEGORIES:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                categories: action.payload
             }
     
         default:

@@ -18,3 +18,4 @@ export const USER_LOGIN = 'USER_LOGIN'
 //categories Actions
 export const ADD_CATEGORY ='ADD_CATEGORY'
 export const CATEGORY_ERROR ='CATEGORY_ERROR'
+export const GET_CATEGORIES = 'GET_CATEGORIES'

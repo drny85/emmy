@@ -35,7 +35,7 @@ app.use('/api/products', productRoutes)
 
 app.use('/api/upload', uploadRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/admin/category', categoryRoutes)
+app.use('/api/categories', categoryRoutes)
 
 if (process.env.NODE_ENV ==='production') {
     app.use(express.static(path.join(__dirname, '/frontend/build')))
