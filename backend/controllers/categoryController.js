@@ -17,3 +17,8 @@ export const addCategory = asyncHandler( async(req, res, next) => {
         throw new Error('error adding category')
     }
 })
+
+export const getCategories = asyncHandler( async(req, res, next) => {
+    const categories = await Category.find();
+    return res.json(categories)
+})
