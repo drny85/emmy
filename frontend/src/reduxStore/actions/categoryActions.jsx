@@ -2,13 +2,15 @@ import responseError from "../../utils/responseError"
 import { ADD_CATEGORY, CATEGORY_ERROR, SET_LOADING } from "./types"
 import axios from '../../utils/axios'
 
-export const addCategory = name => async dispatch => {
+export const addCategory = name => async (dispatch, getState )=> {
     try {
+        const {userData: {user}} = getState()
+       
         setLoading()
         const config = {
             headers: {
                 "Content-Type":"application/json",
-                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOGUzZmM1YzkwM2Q1NDYxYzg3OWRjNSIsImlhdCI6MTYwMzIxODc1MCwiZXhwIjoxNjA1ODEwNzUwfQ.QTPnzG0YgSBcY4A37RLkKngoWg6kgmOX10ndODUbY-Q"
+                Authorization: `Bearer ${user.token}`
             }
         }
        const {data} = await axios.post('/api/admin/category', {name}, config)
