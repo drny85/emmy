@@ -63,6 +63,8 @@ export const updateCategory = (category) => async (dispatch, getState) => {
 
 export const deleteCategory = id => async (dispatch, getState) => {
     try {
+
+        setLoading()
         const {userData: {user}} = getState()
        
         const config = {
@@ -71,7 +73,7 @@ export const deleteCategory = id => async (dispatch, getState) => {
                 Authorization: `Bearer ${user.token}`
             }
         }
-        const {data} =await axios.delete(`/api/categories/${id}`, config)
+        await axios.delete(`/api/categories/${id}`, config)
         
         dispatch({type:DELETE_CATEGORY, payload: id})
     } catch (error) {

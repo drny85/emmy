@@ -63,6 +63,7 @@ const updateProduct = (product) => async (dispatch, getState) => {
                 Authorization: `Bearer ${user.token}`
             }
         }
+        setLoading()
         const {data} = await axios.put(`/api/products/${product._id}`, product, config)
         dispatch({type:UPDATE_PRODUCT, payload: data})
         return true

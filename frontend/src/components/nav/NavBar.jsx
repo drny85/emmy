@@ -12,7 +12,7 @@ const HamNav = () => {
     const input = useRef()
     const { cartItems } = useSelector(state => state.cartData)
     const {user, loading} = useSelector(state => state.userData)
-    
+    console.log(user)
     const checkInput = () => {
 
         if (input.current.checked) {
@@ -53,7 +53,7 @@ const HamNav = () => {
                                 <li><Link onClick={checkInput} to="/test">Overview</Link></li>
                                 {user && user.isAdmin && (<li><Link onClick={checkInput} to="/admin">Admin</Link></li>)}
                                 
-                                <li><Link className="capitalize bold" onClick={checkInput} to={user && !loading ? "/profile" : "/login"}>{user && !loading ? user.name : 'Login'}</Link></li>
+                                <li><Link className="capitalize bold" onClick={checkInput} to={user && !loading ? "/profile" : "/login"}>{user && !loading ? user?.name : 'Login'}</Link></li>
 
                                 <Hidden smDown>
                                     <li><Link onClick={checkInput} to="/cart"> <Badge badgeContent={cartItems.length} color="secondary">

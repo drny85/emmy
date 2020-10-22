@@ -5,7 +5,7 @@ import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
 import {addProduct} from '../../reduxStore/actions/products'
 import {useDispatch} from 'react-redux'
-import Loader from '../Loader';
+
 
 import axios from '../../utils/axios'
 
@@ -19,8 +19,6 @@ const initialValues = {
     available: true
    
 }
-
-const options = [{id:1, title: 3}, {id:2, title: 6}, {id: 3, title: 0}]
 
 const ProductForm = () => {
 

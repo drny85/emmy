@@ -1,4 +1,4 @@
-import { Container, Typography, Paper, Grid } from '@material-ui/core'
+import { Container, Paper, Grid } from '@material-ui/core'
 import React from 'react'
 
 

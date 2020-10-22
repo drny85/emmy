@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react'
-import { Button, Container, Divider, Grid, Typography } from '@material-ui/core';
+import { Container, Divider, Grid, Typography } from '@material-ui/core';
 import Controls from '../../components/controls/Controls'
 import { useForm, Form } from '../../components/useForm'
 import {useDispatch, useSelector} from 'react-redux'
@@ -42,7 +42,7 @@ const Login = ({location}) => {
             return Object.values(temp).every(x => x === "")
     }
 
-    const {values, handleInputChange, errors, setErrors, resetForm, setValues} = useForm(initialValues, true, validate)
+    const {values, handleInputChange, errors, setErrors, resetForm} = useForm(initialValues, true, validate)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -57,7 +57,7 @@ const Login = ({location}) => {
         if (user) {
          history.push(redirect)
         }
-    }, [user])
+    }, [user, history, redirect])
 
     if (loading) return <Loader />
 

@@ -1,7 +1,7 @@
 import { Container, Divider, Grid, Typography } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import SignupForm from '../../components/forms/SignupForm'
-import {useDispatch, useSelector} from 'react-redux'
+import { useSelector} from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
 import Loader from '../../components/Loader'
 

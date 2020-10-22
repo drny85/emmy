@@ -1,4 +1,4 @@
-import { Divider, FormControlLabel, Grid, makeStyles, Switch, Typography } from '@material-ui/core'
+import { Divider,  Grid, makeStyles, Typography } from '@material-ui/core'
 import React, {useState, useEffect} from 'react'
 import axios from '../../utils/axios'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,7 +8,6 @@ import { Form, useForm } from '../../components/useForm'
 import Loader from '../../components/Loader'
 import {updateProduct, getProductById, resetProduct} from '../../reduxStore/actions/products'
 
-const options = [1, 2, 3, ]
 const initialValues = {
     name: '',
     description:'',
@@ -123,7 +122,7 @@ const ProductEdit = ({match, history}) => {
          
         }
     }
-    console.log(uploading)
+    
    
     useEffect(() => {
             
@@ -135,6 +134,7 @@ const ProductEdit = ({match, history}) => {
         return () => {
             dispatch(resetProduct())
         }
+        // eslint-disable-next-line 
     }, [dispatch])
 
     useEffect(() => {
@@ -142,6 +142,7 @@ const ProductEdit = ({match, history}) => {
             setValues({...product})
             setAvailable(product.available ? 'yes': 'no')
         }
+        // eslint-disable-next-line 
     }, [product])
 
   

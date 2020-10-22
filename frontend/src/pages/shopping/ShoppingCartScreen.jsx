@@ -1,4 +1,4 @@
-import { Avatar, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from '@material-ui/core'
+import { Container, Grid, List, ListItem, Paper, Typography } from '@material-ui/core'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import CartListItem from '../../components/CartListItem'

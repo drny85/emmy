@@ -42,7 +42,7 @@ const SignupForm = () => {
             return Object.values(temp).every(x => x === "")
     }
 
-    const {values, handleInputChange, errors, setErrors, resetForm, setValues} = useForm(initialValues, true, validate)
+    const {values, handleInputChange, errors, setErrors, resetForm} = useForm(initialValues, true, validate)
 
     const handleSubmit = e => {
         e.preventDefault()

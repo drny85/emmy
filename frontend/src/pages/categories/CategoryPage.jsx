@@ -59,10 +59,6 @@ const CategoryPage = () => {
         
     }
 
-    const handleDelete = (id) => {
-
-    }
- 
     const {values, handleInputChange, errors, setErrors, setValues, resetForm} = useForm({name: ''}, true, validate)
     useEffect(() => {
         dispatch(getCategories())
