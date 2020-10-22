@@ -98,7 +98,7 @@ const ProductForm = () => {
                
                <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />
                
-               {uploading ? <Loader /> : (<Controls.Select name='estimatedDelivery' value={values.estimatedDelivery} error={errors.estimatedDelivery} label='Estimated Delivery Days' onChange={handleInputChange} options={options} />) }
+               <Controls.Input name='estimatedDelivery'  placeholder="Days delivery might take. Ex. 2" value={values.estimatedDelivery} error={errors.estimatedDelivery} label="Estimated Delivery Days" onChange={handleImage} />
                <Divider light />
                <div style={{marginTop: '15px'}}>
                         <Controls.Button

@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, GET_PRODUCTS, RESET_PRODUCT, SET_LOADING, SET_PRODUCT } from "../actions/types";
+import { ADD_PRODUCT, GET_PRODUCTS, RESET_PRODUCT, SET_LOADING, SET_PRODUCT, UPDATE_PRODUCT } from "../actions/types";
 
 
 const initialState = {
@@ -17,9 +17,18 @@ const productsReducer = (state = initialState, action) => {
                 loading: false
             }
         case SET_LOADING:
+            
             return {
                 ...state,
                 loading: true
+            }
+        case UPDATE_PRODUCT:
+            const newProducts = state.products.filter(p => p._id !== action.payload._id)
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                products: [...newProducts, action.payload]
             }
 
         case SET_PRODUCT:

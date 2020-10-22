@@ -29,7 +29,6 @@ export const addCategory = name => async (dispatch, getState )=> {
 export const getCategories = () => async dispatch => {
     try {
         setLoading()
-        console.log('here')
         const {data} = await axios.get('/api/categories')
         dispatch({type: GET_CATEGORIES, payload: data})
     } catch (error) {

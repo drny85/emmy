@@ -4,8 +4,9 @@ export const ADD_PRODUCT = 'ADD_PRODUCT'
 
 
 export const RESET_PRODUCT ='RESET_PRODUCT'
-
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCT ='SET_PRODUCT'
+export const PRODUCT_ERROR = 'PRODUCT_ERROR'
 
 export const ADD_TO_CART = 'ADD_TO_CART'
 

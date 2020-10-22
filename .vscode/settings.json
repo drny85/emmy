@@ -1,8 +1,6 @@
 {
     "prettier.singleQuote": true,
-    "prettier.tabWidth":2,
-    
-    "editor.formatOnSave": false,
+    "prettier.tabWidth": 2,
     "editor.codeActionsOnSave": {
         // For ESLint
         "source.fixAll.eslint": true,

@@ -1,6 +1,6 @@
 import { Container, Typography, Paper, Grid } from '@material-ui/core'
 import React from 'react'
-import ProductForm from '../../components/forms/ProductForm'
+
 
 import './Admin.css'
 

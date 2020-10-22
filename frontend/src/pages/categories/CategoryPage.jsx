@@ -85,28 +85,27 @@ const CategoryPage = () => {
                 </Grid>
                 <Divider  light/>
                 <Grid item xs={12} md={8}>
-
-                <Paper style={{marginTop:'10px'}}>
-                <List>
-                 {categories.length > 0 && (
-                     categories.map(category => <ListItem divider={true} key={category._id}>
-                         
-                         <ListItemText className='capitalize' primary={category.name} />
-                         <IconButton style={{marginRight: '8px'}} edge="end" onClick={() => handleUpdate(category._id)}>
-                            <EditIcon htmlColor='orange' />
-                         </IconButton>
-                         <IconButton edge="end" onClick={() => dispatch(deleteCategory(category._id))}>
-                            <DeleteOutlineIcon htmlColor='#e57373' />
-                         </IconButton>
-                     </ListItem>
-                     
-                    
-                     
-                     
-                     )
-                 )}
-             </List>
-             </Paper>
+                {categories.length > 0 && (
+                     <Paper style={{marginTop:'10px'}}>
+                     <List>
+                      {categories.length > 0 && (
+                          categories.map(category => <ListItem divider={true} key={category._id}>
+                              
+                              <ListItemText className='capitalize' primary={category.name} />
+                              <IconButton style={{marginRight: '8px'}} edge="end" onClick={() => handleUpdate(category._id)}>
+                                 <EditIcon htmlColor='orange' />
+                              </IconButton>
+                              <IconButton edge="end" onClick={() => dispatch(deleteCategory(category._id))}>
+                                 <DeleteOutlineIcon htmlColor='#e57373' />
+                              </IconButton>
+                          </ListItem>
+                          
+                          )
+                      )}
+                  </List>
+                  </Paper>
+                )}
+               
                 </Grid>
             </Grid>
             

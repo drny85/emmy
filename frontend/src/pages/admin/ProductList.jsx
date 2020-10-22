@@ -26,6 +26,16 @@ const useStyles = makeStyles({
       fontWeight: 'bold',
       
     },
+    root: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+        flexDirection: 'column',
+        minWidth: '80vw',
+        marginTop: '100px'
+       
+    }
 
 
   });
@@ -48,7 +58,8 @@ const ProductList = ({history}) => {
 
     if (loading) return <Loader />
     return (
-       <Container>
+        <div className={classes.root}>
+    <Container>
             <Grid container alignContent='center'>
                 <Grid item xs={8}>
                 <Typography align='center' variant='h4'>Products List</Typography>
@@ -89,6 +100,7 @@ const ProductList = ({history}) => {
                 </Table>
             </TableContainer>
             </Container>
+            </div>
     )
 }
 

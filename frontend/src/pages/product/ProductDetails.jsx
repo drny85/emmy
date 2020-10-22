@@ -11,6 +11,7 @@ import CartItem from '../../models/CartItem';
 import { useEffect } from 'react';
 import { getProductById, resetProduct } from '../../reduxStore/actions/products';
 import Loader from '../../components/Loader';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const ProductDetails = ({match}) => {
+const ProductDetails = ({match, history}) => {
     const classes = useStyles()
-    const { product, loading} = useSelector(state => state.productsData)
+    const { product} = useSelector(state => state.productsData)
+    const {user} = useSelector(state => state.userData)
     const id = match.params.id;
     const [sizeChecked, setChecked] = useState(null)
     const [noSizeSelected, setNoSizeSelected] = useState(false)
@@ -135,9 +137,12 @@ const ProductDetails = ({match}) => {
                             </ListItem>
                             <Divider light />
                             <ListItem>
-                                <Button onClick={handleAddToCart} disabled={!product.available} style={{ marginTop: '10px' }} startIcon={<ShoppingCartIcon />} variant='outlined' size='large' color='primary'>
+                                <Button onClick={handleAddToCart} disabled={!product.available} style={{ marginTop: '10px', marginRight: '5px' }} startIcon={<ShoppingCartIcon />} variant='outlined' size='large' color='primary'>
                                     Add to Cart
                                 </Button>
+                                {user?.isAdmin && ( <Button onClick={() => history.push(`/admin/product/edit/${product._id}`)}   style={{ marginTop: '10px', color: 'red' }} startIcon={<EditOutlinedIcon />} variant='outlined' size='large' color='secondary'>
+                                    Edit Product
+                                </Button>)}
                             </ListItem>
                         </List>
                     </Grid>
