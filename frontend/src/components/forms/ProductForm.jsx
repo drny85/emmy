@@ -4,10 +4,11 @@ import { Divider, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls'
 import { useForm, Form } from '../useForm'
 import {addProduct} from '../../reduxStore/actions/products'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 
 import axios from '../../utils/axios'
+import Message from '../Message';
 
 
 const initialValues = {
@@ -26,6 +27,7 @@ const ProductForm = () => {
     
     const [uploading, setUploading] = useState(false)
     const [imageUrl, setImageUrl] = useState('')
+    const {error} = useSelector(state => state.productsData)
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -86,8 +88,9 @@ const ProductForm = () => {
 
     return (
        <Form onSubmit={handleSubmit}>
-          
+           
             <Grid container>
+            {error && (<Message type='error'>{error}</Message>)}
                 <Grid item sx={12} md={12}>
                    
                 <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
@@ -96,7 +99,7 @@ const ProductForm = () => {
                
                <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />
                
-               <Controls.Input name='estimatedDelivery'  placeholder="Days delivery might take. Ex. 2" value={values.estimatedDelivery} error={errors.estimatedDelivery} label="Estimated Delivery Days" onChange={handleImage} />
+               <Controls.Input name='estimatedDelivery'  placeholder="Days delivery might take. Ex. 2" value={values.estimatedDelivery} error={errors.estimatedDelivery} label="Estimated Delivery Days" onChange={handleInputChange} />
                <Divider light />
                <div style={{marginTop: '15px'}}>
                         <Controls.Button

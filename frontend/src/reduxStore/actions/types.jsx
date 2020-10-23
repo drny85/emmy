@@ -8,7 +8,14 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCT ='SET_PRODUCT'
 export const PRODUCT_ERROR = 'PRODUCT_ERROR'
 
+
+//add to cart actions
 export const ADD_TO_CART = 'ADD_TO_CART'
+export const CART_ERROR = 'CART_ERROR'
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+export const GET_CART = 'GET_CART'
+export const CREATE_CART = 'CREATE_CART'
+
 
 // user constants
 export const USER_SIGN_UP = 'USER_SIGN_UP'

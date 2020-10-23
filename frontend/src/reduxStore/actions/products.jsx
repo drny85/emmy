@@ -22,6 +22,11 @@ const addProduct = product => async (dispatch, getState) => {
 
     try {
         const {userData: {user}} = getState()
+
+        if(!user) {
+            dispatch({type: PRODUCT_ERROR, payload: 'not authorized'})
+            return
+        }
        
         const config = {
             headers: {
@@ -56,6 +61,11 @@ const getProductById = (id) => async dispatch => {
 const updateProduct = (product) => async (dispatch, getState) => {
     try {
         const {userData: {user}} = getState()
+
+        if(!user) {
+            dispatch({type: PRODUCT_ERROR, payload: 'not authorized'})
+            return
+        }
        
         const config = {
             headers: {

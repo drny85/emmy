@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, GET_PRODUCTS, RESET_PRODUCT, SET_LOADING, SET_PRODUCT, UPDATE_PRODUCT } from "../actions/types";
+import { ADD_PRODUCT, GET_PRODUCTS, PRODUCT_ERROR, RESET_PRODUCT, SET_LOADING, SET_PRODUCT, UPDATE_PRODUCT } from "../actions/types";
 
 
 const initialState = {
@@ -43,6 +43,12 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 product: null,
                 loading: false
+            }
+        case PRODUCT_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
             }
 
         case ADD_PRODUCT:

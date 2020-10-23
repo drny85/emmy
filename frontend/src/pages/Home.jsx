@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
-import { Container, Grid, Ale } from '@material-ui/core'
+import { Grid,  } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles';
-import Product from '../components/Product';
 
-import axios from '../utils/axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { getProducts } from '../reduxStore/actions/products';
 import ProductCard from '../components/cards/ProductCard';

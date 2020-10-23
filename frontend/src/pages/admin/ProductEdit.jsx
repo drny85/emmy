@@ -7,6 +7,7 @@ import Controls from '../../components/controls/Controls'
 import { Form, useForm } from '../../components/useForm'
 import Loader from '../../components/Loader'
 import {updateProduct, getProductById, resetProduct} from '../../reduxStore/actions/products'
+import Message from '../../components/Message'
 
 const initialValues = {
     name: '',
@@ -37,7 +38,7 @@ const ProductEdit = ({match, history}) => {
     const dispatch = useDispatch()
     const classes = useStyles()
     const productId = match.params.id
-    const {product, loading} = useSelector(state => state.productsData)
+    const {product, loading, error} = useSelector(state => state.productsData)
     
     const [uploading, setUploading] = useState(false)
     const [imageUrl, setImageUrl] = useState('')
@@ -151,9 +152,11 @@ const ProductEdit = ({match, history}) => {
     return (
         <div className={classes.root}>
             <Typography align='center' variant='h4'>Edit/Update Product</Typography>
+   
           <Form onSubmit={handleSubmit}>
           
           <Grid container>
+          {error && (<Message type='error'>{error}</Message>)}
               <Grid item sx={12} md={12}>
                  
               <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
@@ -162,7 +165,7 @@ const ProductEdit = ({match, history}) => {
              
              <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />
              
-             <Controls.Input name='estimatedDelivery' value={values.estimatedDelivery} label="Estimated Delivery Days" onChange={handleImage} />
+             <Controls.Input name='estimatedDelivery' value={values.estimatedDelivery} label="Estimated Delivery Days" onChange={handleInputChange} />
              <Controls.RadioGroup name="available"  value={isAvailable} onChange={handleAvailabitity} label="Is Available" items={[{id: 'yes', title: 'Yes'}, {id: 'no', title: 'No'}]} />
              <Divider light />
              <div style={{marginTop: '15px'}}>

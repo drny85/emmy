@@ -10,9 +10,9 @@ import './NavBar.css'
 const HamNav = () => {
 
     const input = useRef()
-    const { cartItems } = useSelector(state => state.cartData)
+    const { cartItems, quantity } = useSelector(state => state.cartData)
     const {user, loading} = useSelector(state => state.userData)
-    console.log(user)
+    
     const checkInput = () => {
 
         if (input.current.checked) {
@@ -56,7 +56,7 @@ const HamNav = () => {
                                 <li><Link className="capitalize bold" onClick={checkInput} to={user && !loading ? "/profile" : "/login"}>{user && !loading ? user?.name : 'Login'}</Link></li>
 
                                 <Hidden smDown>
-                                    <li><Link onClick={checkInput} to="/cart"> <Badge badgeContent={cartItems.length} color="secondary">
+                                    <li><Link onClick={checkInput} to="/cart"> <Badge badgeContent={quantity} color="secondary">
                                         <ShoppingCartIcon />
                                     </Badge></Link></li>
                                 </Hidden>

@@ -59,7 +59,9 @@ const Login = ({location}) => {
         }
     }, [user, history, redirect])
 
-    if (loading) return <Loader />
+    console.log(loading)
+
+    //if (loading) return <Loader />
 
     return (
         <Container style={{marginTop:'30px'}}>

@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from "../actions/types";
+import { ADD_TO_CART, GET_CART, REMOVE_FROM_CART } from "../actions/types";
 
 const initialState = {
     cartItems: [],
@@ -13,15 +13,81 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             const product = action.payload
+           
+            const inCart = state.cartItems.find(i => i.product._id === product.product._id)
+            if (inCart) {
+              
+                const index = state.cartItems.findIndex(i => i.product._id === product.product._id)
+               
+                const newProducts = [...state.cartItems]
+                console.log(newProducts)
+                newProducts[index].qty = inCart.qty + 1;
+                return {
+                    ...state,
+                    loading: false,
+                    cartItems: [...newProducts],
+                    quantity: state.quantity + 1,
+                    total: state.total + product.price
+                }
 
+            } else {
+                
+                return {
+                    ...state,
+                    loading: false,
+                    cartItems: [...state.cartItems, product],
+                    quantity: state.quantity + 1,
+                    total:state.total + product.price
+                }
+            }
 
+        case REMOVE_FROM_CART:
+            const item = action.payload
+            const exists  = state.cartItems.find(i => i.product._id === item._id)
+            if (exists) {
+                const index = state.cartItems.findIndex(i => i.product._id === item._id)
+                const newProducts = [...state.cartItems]
+              
+
+                if (exists.qty > 1) {
+                    newProducts[index].qty = exists.qty - 1;
+                    return {
+                        ...state,
+                        loading: false,
+                        error: false,
+                        cartItems: [...newProducts],
+                        quantity: state.quantity -1,
+                        total: state.total - item.price
+                    }
+                } else {
+                   
+                    return {
+                        ...state,
+                        loading: false,
+                        error: false,
+                        cartItems: [...state.cartItems.filter(p => p.product._id !== item._id)],
+                        quantity: state.quantity -1,
+                        total: state.total - item.price
+                    }
+
+                }
+               
+
+            } else {
+                return state
+            }
+
+        case GET_CART:
             return {
                 ...state,
                 loading: false,
-                cartItems: [...state.cartItems, action.payload],
-                quantity: state.quantity + product.qty,
-                total: state.total + +product.price
+                cartItems: action.payload.items,
+                total: action.payload.total,
+                quantity: action.payload.quantity
             }
+            
+
+            
 
         default:
             return state;

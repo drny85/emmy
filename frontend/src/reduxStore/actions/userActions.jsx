@@ -21,10 +21,8 @@ export const signup = ({name, lastName, email, password}) => async  dispatch => 
 export const login = ({email, password}) => async dispatch => {
     try {
         setLoading()
-       
-       
         const {data} = await axios.post('/api/users/login', {email, password});
-        console.log(data)
+        console.log('here',data)
         dispatch({type:USER_LOGIN, payload: data})
         localStorage.setItem('emmyUserData', JSON.stringify(data))
     } catch (error) {
@@ -38,7 +36,7 @@ export const autoLoginUser = (user) => async (dispatch, getState) => {
         setLoading()
       
         const {data} = await axios.get('/api/users/'+ user._id)
-       
+        console.log('here')
         dispatch({type:USER_LOGIN, payload: data})
     } catch (error) {
         console.error(error)

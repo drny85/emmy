@@ -20,6 +20,7 @@ import ProfilePage from './pages/auth/ProfilePage';
 import Login from './pages/auth/Login';
 import ProductEdit from './pages/admin/ProductEdit';
 import CategoryPage from './pages/categories/CategoryPage';
+import { createCart, getCartById } from './reduxStore/actions/shoopingCart'
 
 const theme = createMuiTheme({
   palette: {
@@ -38,10 +39,34 @@ const theme = createMuiTheme({
   },
 });
 
+function generateCart(key, value) {
+  const found = localStorage.getItem(key)
+  if (found) {
+    return localStorage.getItem(JSON.parse(found))
+  }
+
+  localStorage.setItem(key, JSON.stringify(value))
+}
+
+const saveCartId = async (dispatch) => {
+  if (!localStorage.getItem('emmyCart')) {
+    const data = await dispatch(createCart())
+    generateCart('emmyCart', data)
+  }
+ 
+}
+
 function App() {
 const dispatch = useDispatch()
+saveCartId(dispatch)
+
 useEffect(() => {
    const user = localStorage.getItem('emmyUserData');
+   const id = localStorage.getItem('emmyCart')
+   if (id) {
+     dispatch(getCartById(JSON.parse(id)))
+   }
+  
    if (user && user !== undefined) {
      const data = JSON.parse(user)
      

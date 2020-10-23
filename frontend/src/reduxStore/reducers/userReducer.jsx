@@ -16,7 +16,8 @@ const userReducer = (state= initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                error: null
+                error: null,
+                loading: false
             };
 
         case SET_LOADING:
@@ -32,6 +33,7 @@ const userReducer = (state= initialState, action) => {
                 ...state,
                 user: null,
                 error: null,
+                loading: false,
                 users: []
             }
 

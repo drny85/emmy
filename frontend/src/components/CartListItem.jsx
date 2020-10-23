@@ -1,8 +1,10 @@
-import { Avatar, Divider } from '@material-ui/core'
+import { Avatar, Divider, IconButton } from '@material-ui/core'
 import React from 'react'
-
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { removeFromCart } from '../reduxStore/actions/shoopingCart';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const CartListItem = ({ product }) => {
-
+    const dispatch = useDispatch()
     const { qty, price, name } = product
     console.log(product)
     const classes = useStyles()
+
+    const handleDelete = () => {
+        dispatch(removeFromCart(product))
+    }
     return (
         <div className='cart_list_items'>
             <div className="cart_list_item">
@@ -39,7 +45,11 @@ const CartListItem = ({ product }) => {
 
                 </div>
             </div>
-            <div className="cart_list_item"></div>
+            <div className="cart_list_item">
+                <IconButton onClick={handleDelete}>
+                    <DeleteOutlineIcon color='primary' />
+                </IconButton>
+            </div>
             <Divider light />
         </div>
     )
