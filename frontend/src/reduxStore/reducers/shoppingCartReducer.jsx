@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
                 const index = state.cartItems.findIndex(i => i.product._id === product.product._id)
                
                 const newProducts = [...state.cartItems]
-                console.log(newProducts)
+              
                 newProducts[index].qty = inCart.qty + 1;
                 return {
                     ...state,

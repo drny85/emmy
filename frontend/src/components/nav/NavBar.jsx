@@ -10,7 +10,7 @@ import './NavBar.css'
 const HamNav = () => {
 
     const input = useRef()
-    const { cartItems, quantity } = useSelector(state => state.cartData)
+    const { quantity } = useSelector(state => state.cartData)
     const {user, loading} = useSelector(state => state.userData)
     
     const checkInput = () => {

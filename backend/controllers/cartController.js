@@ -3,21 +3,32 @@ import asyncHandle from 'express-async-handler';
 
 export const addToCart = asyncHandle(async (req, res, next) => {
   const { product, cartId } = req.body;
-  console.log(cartId);
 
   const cart = await Cart.findById(cartId);
+  console.log(cart);
   if (!cart) {
     res.status(400);
     throw new Error('no cart found');
   }
   const inCart = cart.items.find((p) => p.product._id === product.product._id);
-  console.log(inCart);
+
   if (inCart) {
     const index = cart.items.findIndex(
       (i) => i.product._id === product.product._id
     );
-    cart.items[index].qty += 1;
-    const saved = await cart.save();
+
+    const count = cart.items[index].qty;
+    const saved = await Cart.updateOne(
+      { _id: cartId, 'items.product._id': product.product._id },
+      {
+        $set: {
+          'items.$.qty': count + 1,
+          total: cart.total + product.price,
+          quantity: cart.quantity + 1,
+        },
+      },
+      { overwrite: true }
+    );
 
     return res.json(saved);
   } else {
