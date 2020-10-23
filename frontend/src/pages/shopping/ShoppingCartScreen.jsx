@@ -39,7 +39,7 @@ const ShoppingCartScreen = () => {
                     <List>
                         {cartItems.map(item => {
                             const product = { ...item.product, qty: item.qty }
-                            return <ListItem key={item.id}>
+                            return <ListItem key={product._id}>
                                 <CartListItem product={product} />
 
                             </ListItem>

@@ -5,7 +5,6 @@ export const addToCart = asyncHandle(async (req, res, next) => {
   const { product, cartId } = req.body;
 
   const cart = await Cart.findById(cartId);
-  console.log(cart);
   if (!cart) {
     res.status(400);
     throw new Error('no cart found');
@@ -29,7 +28,7 @@ export const addToCart = asyncHandle(async (req, res, next) => {
       },
       { overwrite: true }
     );
-
+    console.log(saved);
     return res.json(saved);
   } else {
     cart.items.push(product);
@@ -37,7 +36,7 @@ export const addToCart = asyncHandle(async (req, res, next) => {
     cart.total = cart.total + product.price;
 
     const updated = await cart.save();
-    console.log('U', updated);
+
     return res.json(updated);
   }
 });

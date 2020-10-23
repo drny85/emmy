@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 const CartListItem = ({ product }) => {
     const dispatch = useDispatch()
     const { qty, price, name } = product
-    console.log(product)
     const classes = useStyles()
 
     const handleDelete = () => {
