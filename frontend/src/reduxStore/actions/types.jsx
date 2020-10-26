@@ -15,6 +15,7 @@ export const CART_ERROR = 'CART_ERROR'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const GET_CART = 'GET_CART'
 export const CREATE_CART = 'CREATE_CART'
+export const CLEAR_CART = 'CLEAR_CART'
 
 
 // user constants

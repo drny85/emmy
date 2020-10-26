@@ -1,9 +1,10 @@
 import { Button, Container, Grid, List, ListItem, Paper, Typography } from '@material-ui/core'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch} from 'react-redux'
 import { Link } from 'react-router-dom'
 import CartListItem from '../../components/CartListItem'
 import { makeStyles } from '@material-ui/core/styles';
+import {clearCart} from '../../reduxStore/actions/shoopingCart'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
 
 const ShoppingCartScreen = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+
+    const emptyCartHandler = () => {
+        const id = localStorage.getItem('emmyCart')
+        if (id) {
+            const empty = dispatch(clearCart(JSON.parse(id)))
+            console.log(empty)
+        }
+       
+    }
 
     const { cartItems } = useSelector(state => state.cartData)
     return (
@@ -22,7 +33,7 @@ const ShoppingCartScreen = () => {
                 <Grid container>
                     <Grid item xs={8}>  <Typography variant='h5'>Shopping Cart</Typography></Grid>
                     <Grid item xs={4}>
-                    <Button variant='outlined' color='primary' component={Link} className={classes.btn} to='/'>Clear Cart</Button>
+                    <Button variant='outlined' color='primary'  onClick={emptyCartHandler} className={classes.btn}>Clear Cart</Button>
                     </Grid>
                 </Grid>
           

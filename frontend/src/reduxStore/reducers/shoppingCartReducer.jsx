@@ -1,4 +1,4 @@
-import { ADD_TO_CART, GET_CART, REMOVE_FROM_CART } from "../actions/types";
+import { ADD_TO_CART, CLEAR_CART, GET_CART, REMOVE_FROM_CART } from "../actions/types";
 
 const initialState = {
     cartItems: [],
@@ -13,11 +13,11 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             const product = action.payload
-           
-            const inCart = state.cartItems.find(i => i.product._id === product.product._id)
+           console.log('PRO', product)
+            const inCart = state.cartItems.find(i => i.product._id === product._id)
             if (inCart) {
               
-                const index = state.cartItems.findIndex(i => i.product._id === product.product._id)
+                const index = state.cartItems.findIndex(i => i.product._id === product._id)
                
                 const newProducts = [...state.cartItems]
               
@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
                 }
 
             } else {
-                
+                console.log(product)
                 return {
                     ...state,
                     loading: false,
@@ -75,6 +75,16 @@ export default (state = initialState, action) => {
 
             } else {
                 return state
+            }
+
+        case CLEAR_CART:
+            return {
+                ...state,
+                cartItems: [],
+                loading: false,
+                total: 0,
+                quantity: 0,
+                error: null
             }
 
         case GET_CART:

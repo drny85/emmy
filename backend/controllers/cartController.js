@@ -3,6 +3,7 @@ import asyncHandle from 'express-async-handler';
 
 export const addToCart = asyncHandle(async (req, res, next) => {
   const { product, cartId } = req.body;
+  console.log(product);
 
   const cart = await Cart.findById(cartId);
   if (!cart) {
@@ -17,7 +18,7 @@ export const addToCart = asyncHandle(async (req, res, next) => {
     );
 
     const count = cart.items[index].qty;
-    const saved = await Cart.updateOne(
+    await Cart.updateOne(
       { _id: cartId, 'items.product._id': product.product._id },
       {
         $set: {
@@ -25,21 +26,22 @@ export const addToCart = asyncHandle(async (req, res, next) => {
           total: cart.total + product.price,
           quantity: cart.quantity + 1,
         },
-      },
-      { overwrite: true }
+      }
     );
-    console.log(saved);
-    return res.json(saved);
+
+    return res.json(product.product);
   } else {
     cart.items.push(product);
     cart.quantity = cart.quantity + 1;
     cart.total = cart.total + product.price;
 
-    const updated = await cart.save();
+    await cart.save();
 
-    return res.json(updated);
+    return res.json(product);
   }
 });
+
+export const removeFromCart = asyncHandle(async (req, res, next) => {});
 
 export const getCart = asyncHandle(async (req, res, next) => {
   const cart = await Cart.findById(req.params.id);
@@ -51,5 +53,24 @@ export const createCart = asyncHandle(async (req, res, next) => {
     items: [],
   });
 
-  return res.json(cart._id);
+  if (cart) return res.json(cart._id);
+
+  res.status(400);
+  throw new Error('not cart created');
+});
+
+export const clearCart = asyncHandle(async (req, res, next) => {
+  const cartId = req.params.id;
+  const cart = await Cart.findByIdAndUpdate(cartId, {
+    items: [],
+    quantity: 0,
+    total: 0,
+  });
+
+  if (cart) {
+    return res.json(true);
+  }
+
+  res.status(400);
+  throw new Error('no cart found');
 });
