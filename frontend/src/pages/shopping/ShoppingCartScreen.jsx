@@ -19,21 +19,27 @@ const ShoppingCartScreen = () => {
 
     const emptyCartHandler = async () => {
        
-       
-            const empty = await dispatch(clearCart())
-            console.log(empty)
+           const yes = alert('Do you realy want to empty the cart?')
+           if(yes) {
+               console.log(yes)
+            //const empty = await dispatch(clearCart())
+           } else return
+           
+           
         
        
     }
 
     const { cartItems } = useSelector(state => state.cartData)
+    
     return (
-        <div style={{ margin: 'auto 20px'}} >
+        <div style={{ margin: 'auto 50px'}}>
+            <Container>
             <div>
                 <Grid container>
                     <Grid item xs={8}>  <Typography variant='h5'>Shopping Cart</Typography></Grid>
                     <Grid item xs={4}>
-                    <Button variant='outlined' color='primary'  onClick={emptyCartHandler} className={classes.btn}>Clear Cart</Button>
+                    <Button variant='outlined' color='primary' size='small'  onClick={emptyCartHandler} className={classes.btn}>Clear Cart</Button>
                     </Grid>
                 </Grid>
           
@@ -46,7 +52,7 @@ const ShoppingCartScreen = () => {
             ) : ( <Paper style={{ padding: '1rem', marginTop: '1rem' }}>
             <Grid container>
 
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={12}>
                     <List>
                         {cartItems.map(item => {
                             const product = { ...item.product, qty: item.qty }
@@ -62,6 +68,7 @@ const ShoppingCartScreen = () => {
             </Grid>
         </Paper>)}
             </div>
+            </Container>
         </div>
     )
 }
