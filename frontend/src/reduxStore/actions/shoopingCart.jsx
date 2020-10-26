@@ -9,6 +9,9 @@ const cartId = JSON.parse(item)
 
 const addToCart = (product) => async dispatch => {
     try {
+        const item = localStorage.getItem('emmyCart')
+        const cartId = JSON.parse(item)
+
         
         const {data} = await axios.post('/api/cart', {cartId, product})
         console.log(data)
@@ -22,12 +25,16 @@ const addToCart = (product) => async dispatch => {
 
 const removeFromCart = product => async dispatch => {
     try {
-        console.log(product)
+        const item = localStorage.getItem('emmyCart')
+        const cartId = JSON.parse(item)
+     
+
+        const {data} = await axios.delete(`/api/cart/${cartId}/${product._id}`)
+        console.log('DEL',data)
         dispatch({type: REMOVE_FROM_CART, payload: product})
         
     } catch (error) {
-        console.error(error)
-        console.log(product)
+       console.log(responseError(error))
         dispatch({type: CART_ERROR, payload: responseError(error)})
     }
 }
@@ -43,10 +50,12 @@ const createCart = () => async dispatch => {
 }
 
 
-const clearCart = id => async dispatch => {
+const clearCart = () => async dispatch => {
     try {
-        console.log(id)
-        const {data} = await axios.put(`/api/cart/${id}`)
+        const item = localStorage.getItem('emmyCart')
+        const cartId = JSON.parse(item)
+
+        const   {data} = await axios.put(`/api/cart/${cartId}`)
         dispatch({type: CLEAR_CART})
         return data
         
@@ -56,9 +65,12 @@ const clearCart = id => async dispatch => {
 }
 
 
-const getCartById = (id) => async dispatch => {
+const getCartById = () => async dispatch => {
     try {
-        const {data} = await axios.get(`/api/cart/${id}`)
+        const item = localStorage.getItem('emmyCart')
+        const cartId = JSON.parse(item)
+        const {data} = await axios.get(`/api/cart/${cartId}`)
+        console.log(data)
         dispatch({type: GET_CART, payload: data})
     } catch (error) {
         console.error(responseError(error))

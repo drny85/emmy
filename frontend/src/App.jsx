@@ -62,10 +62,8 @@ saveCartId(dispatch)
 
 useEffect(() => {
    const user = localStorage.getItem('emmyUserData');
-   const id = localStorage.getItem('emmyCart')
-   if (id) {
-     dispatch(getCartById(JSON.parse(id)))
-   }
+    dispatch(getCartById())
+   
   
    if (user && user !== undefined) {
      const data = JSON.parse(user)

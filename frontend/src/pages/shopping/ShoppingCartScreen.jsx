@@ -17,12 +17,12 @@ const ShoppingCartScreen = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    const emptyCartHandler = () => {
-        const id = localStorage.getItem('emmyCart')
-        if (id) {
-            const empty = dispatch(clearCart(JSON.parse(id)))
+    const emptyCartHandler = async () => {
+       
+       
+            const empty = await dispatch(clearCart())
             console.log(empty)
-        }
+        
        
     }
 
