@@ -1,4 +1,4 @@
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, Divider, FormHelperText, Grid, List, ListItem, Paper, Typography } from '@material-ui/core'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Divider, FormHelperText, Grid, List, ListItem, Paper, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useSelector , useDispatch} from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -6,6 +6,7 @@ import CartListItem from '../../components/CartListItem'
 import { makeStyles } from '@material-ui/core/styles';
 import {clearCart} from '../../reduxStore/actions/shoopingCart'
 import PaymentIcon from '@material-ui/icons/Payment';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 
 
@@ -47,6 +48,13 @@ const ShoppingCartScreen = ({history}) => {
     }
  
     const { cartItems, total } = useSelector(state => state.cartData)
+
+    if (cartItems.length === 0) {
+        return <div style={{display: 'flex', justifyContent:'center', alignItems: 'center', flexDirection:'column', height: '80vh'}}>
+        <h3 style={{margin: '1rem'}}>Your cart is empty</h3>
+        <Button startIcon={<ShoppingBasketIcon />} variant='contained' color='primary' component={Link} to='/'>Go Shopping</Button>
+    </div>  
+    }
    
     return (
         
@@ -60,13 +68,10 @@ const ShoppingCartScreen = ({history}) => {
                     </Grid>
                 </Grid>
           
-            {cartItems.length === 0 ? (
-                <div className="center" style={{position: 'absolute', left: '50%', top: '50%',transform: 'translate(-50%, -50%)'}}>
-                    <h3 style={{margin: '1rem'}}>Your cart is empty</h3>
-                    <Button variant='outlined' color='primary' component={Link} to='/'>Go Shopping</Button>
-                </div>  
+         
                 
-            ) : ( <Paper style={{ padding: '1rem', marginTop: '1rem' }}>
+                
+            <Paper style={{ padding: '1rem', marginTop: '1rem' }}>
             <Grid item container>
 
                 <Grid item xs={12} sm={12}>
@@ -99,7 +104,7 @@ const ShoppingCartScreen = ({history}) => {
                
                
             </Grid>
-        </Paper>)}
+        </Paper>
            
             <Dialog open={show} onClose={handleClose}>
                 <DialogContent>
