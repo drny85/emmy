@@ -21,21 +21,29 @@ import Login from './pages/auth/Login';
 import ProductEdit from './pages/admin/ProductEdit';
 import CategoryPage from './pages/categories/CategoryPage';
 import { createCart, getCartById } from './reduxStore/actions/shoopingCart'
+import {green} from '@material-ui/core/colors'
+
+import ShippingPage from './pages/shopping/ShippingPage';
+import OrderSummary from './pages/shopping/OrderSummary';
+import MyOrders from './pages/shopping/MyOrders';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#424242',
+      light: '#002984',
       main: '#212121',
       dark: '#002884',
       contrastText: '#f5f5f5',
     },
     secondary: {
-      light: '#ff7961',
+      light: '#5d659c',
       main: '#01579b',
       dark: '#ba000d',
       contrastText: '#eceff1',
     },
+    background: {
+      default: green
+    }
   },
 });
 
@@ -84,6 +92,9 @@ useEffect(() => {
           <Route path="/test" component={Test} />
           <Route path="/cart" component={ShoppingCartScreen} />
           <Route path="/profile" component={ProfilePage} />
+          <Route path="/shipping" component={ShippingPage} />
+          <Route path="/orders" component={MyOrders} />
+          <Route path="/order-summary" component={OrderSummary} />
           <Route path="/admin/category" component={CategoryPage} />
           <Route path="/admin/products" component={ProductList} />
           <Route path="/admin/product/edit/:id" component={ProductEdit} />

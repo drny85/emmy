@@ -94,7 +94,7 @@ const ProductForm = () => {
                 <Grid item sx={12} md={12}>
                    
                 <Controls.Input name='name' className='capitalize' value={values.name} error={errors.name} label='Product Name' onChange={handleInputChange} />
-               <Controls.Input name='description' value={values.description} error={errors.description} label='Product Description' onChange={handleInputChange} />
+               <Controls.Input name='description' value={values.description} multiline={true} error={errors.description} label='Product Description' onChange={handleInputChange} />
                <Controls.Input name='price' value={values.price} error={errors.price} type='number' step='1' min='0' label='Price' onChange={handleInputChange} />
                
                <Controls.Input  name='imageUrl' label='Image' type='file' inputProps={{autoFocus: true, disabled: uploading}} onChange={handleImage} />

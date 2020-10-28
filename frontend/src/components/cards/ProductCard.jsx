@@ -20,7 +20,7 @@ const ProductCard = ({ product, onClick }) => {
 
             </div>
             <div className="product_card_footer">
-                <Button variant='contained' onClick={onClick} style={{ backgroundColor: '#607d8b' }} color='primary'>View Details</Button>
+                <Button variant='contained' onClick={onClick} color='secondary'>View Details</Button>
             </div>
 
         </div>

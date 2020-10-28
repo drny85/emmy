@@ -33,7 +33,7 @@ const useStyles = makeStyles({
         
         flexDirection: 'column',
         minWidth: '80vw',
-        marginTop: '100px'
+        marginTop: '15px'
        
     }
 
@@ -59,7 +59,7 @@ const ProductList = ({history}) => {
     if (loading) return <Loader />
     return (
         <div className={classes.root}>
-    <Container>
+         <Container>
             <Grid container alignContent='center'>
                 <Grid item xs={8}>
                 <Typography align='center' variant='h4'>Products List</Typography>
@@ -70,10 +70,10 @@ const ProductList = ({history}) => {
 
                 </Grid>
             </Grid>
-           
+           <div style={{marginBottom: '8px'}} />
             <TableContainer component={Paper}>
                 <Table className={classes.table} stickyHeader aria-label="sticky table">
-                    <TableHead style={{fontWeight: 'bold', backgroundColor:'red'}}>
+                    <TableHead style={{fontWeight: 'bold', background: 'linear-gradient(90deg, rgba(52,56,55,0.7231267507002801), #ffffff)'}}>
                         <TableRow >
                             <TableCell>Name</TableCell>
                             <TableCell>Price</TableCell>

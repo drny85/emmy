@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     container: {
-        marginTop: '50px',
+       
         
     
 
@@ -57,6 +57,7 @@ const ProductDetails = ({match, history}) => {
         const item = new CartItem(product, 1, product.price)
 
         dispatch(addToCart(item))
+        history.push('/cart')
     }
     
     const handleSizeChange = (e) => {
@@ -87,14 +88,16 @@ const ProductDetails = ({match, history}) => {
 
     return (
        <Container className={classes.container}>
+             <h2 style={{textAlign: 'center', padding: '15px 0px'}}>Product Details</h2>
             <Paper>
                 <Grid container>
-                    <Grid item sx={12} sm={5} md={4} lg={5}>
+                  
+                    <Grid item sx={12}  md={5} >
                         <Card>
                             <CardMedia className='imgHover' onClick={handleImageClick} component='img' height='400px' style={{ maxHeight: '400px' }} image={product.imageUrl} />
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={5} md={4} lg={5}>
+                    <Grid item xs={12}  md={7} >
                         <List>
                             <ListItem>
                                 <Typography style={{ textTransform: 'capitalize' }} variant='h5'>{product.name}</Typography>
@@ -137,10 +140,10 @@ const ProductDetails = ({match, history}) => {
                             </ListItem>
                             <Divider light />
                             <ListItem>
-                                <Button onClick={handleAddToCart} disabled={!product.available} style={{ marginTop: '10px', marginRight: '5px' }} startIcon={<ShoppingCartIcon />} variant='outlined' size='large' color='primary'>
+                                <Button onClick={handleAddToCart} disabled={!product.available} style={{ marginTop: '10px', marginRight: '5px' }} startIcon={<ShoppingCartIcon />} variant='outlined' size='medium' color='primary'>
                                     Add to Cart
                                 </Button>
-                                {user?.isAdmin && ( <Button onClick={() => history.push(`/admin/product/edit/${product._id}`)}   style={{ marginTop: '10px', color: 'red' }} startIcon={<EditOutlinedIcon />} variant='outlined' size='large' color='secondary'>
+                                {user?.isAdmin && ( <Button onClick={() => history.push(`/admin/product/edit/${product._id}`)}   style={{ marginTop: '10px', color: 'red' }} startIcon={<EditOutlinedIcon />} variant='outlined' size='medium' color='secondary'>
                                     Edit Product
                                 </Button>)}
                             </ListItem>
