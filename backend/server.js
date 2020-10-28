@@ -42,7 +42,7 @@ app.get('/api/paypal', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     client_id = process.env.PAYPAL_CLIENT_ID_PRO;
   } else if (process.env.NODE_ENV === 'development') {
-    client_id = process.env.PAYPAL_CLIENT_ID_PRO;
+    client_id = process.env.PAYPAL_CLIENT_ID_DEV;
   }
   return res.json(client_id);
 });

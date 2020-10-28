@@ -90,6 +90,7 @@ const OrderSummary = () => {
           try {
               
               const {data} = await axios.get('/api/paypal')
+              console.log('client', data)
               const script = document.createElement('script')
               script.type = 'text/javascript'
               script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
