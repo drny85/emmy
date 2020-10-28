@@ -27,7 +27,7 @@ export const getOrders = () => async dispatch => {
 
 export const getOrderById = id => async dispatch => {
     try {
-        setLoading()
+        dispatch({type: SET_LOADING})
         const {data} = await axios.get(`/api/orders/${id}`)
         dispatch({type: GET_ORDER_BY_ID, payload: data})
     } catch (error) {

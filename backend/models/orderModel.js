@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const orderSchema = mongoose.Schema({
-  customer: { type: String },
+  customer: { name: {type: String}, phone: {type: String}, email: {type: String} },
   shippingAddress: { type: Object },
   paymentDetails: { type: Object },
   orderItems: { type: Array },
