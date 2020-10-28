@@ -18,7 +18,7 @@ const OrderSummary = () => {
 
     const {cartItems, quantity, total }= useSelector(state => state.cartData)
     const shipping = JSON.parse(localStorage.getItem('shippingAddress'));
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [loadState, setLoadState] = useState({ loading: false, loaded: false });
     const [isPaid, setIsPaid] = useState(false)
     const [processing, setProcessing] = useState(false)
     const paypal = useRef()
@@ -88,13 +88,14 @@ const OrderSummary = () => {
    
       const addPaypal = async () => {
           try {
+              
               const {data} = await axios.get('/api/paypal')
               const script = document.createElement('script')
               script.type = 'text/javascript'
               script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
               script.async = true;
               script.onload = () => {
-                  setIsLoaded(true)
+                  setLoadState({ loading: false, loaded: true })
               }
               document.body.appendChild(script)
 
@@ -104,17 +105,17 @@ const OrderSummary = () => {
           }
       }
 
-      if (!window.paypal) {
+      if (!loadState.loading && !loadState.loaded) {
+
+        setLoadState({ loading: true, loaded: false });
         addPaypal()
       }
-
      
-
       return () => {
          
       }
      
-    }, [total, isLoaded])
+    }, [total, loadState.loaded])
 
     if (processing) return <Loader />
 
@@ -166,7 +167,7 @@ const OrderSummary = () => {
                         </>)}
                     <div ref={paypal} className="payment_btn">
                    
-                            {isLoaded && <PayPalButton disabled createOrder={createOrder} onButtonReady={() =>setIsLoaded(true)} onSuccess={onSuccess} onError={onError} onCancel={onCancel} />}
+                            {loadState.loaded && <PayPalButton disabled createOrder={createOrder} onButtonReady={() => setLoadState({loading: false, loaded: true})} onSuccess={onSuccess} onError={onError} onCancel={onCancel} />}
                     </div>
                     
                    

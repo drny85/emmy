@@ -2,6 +2,7 @@ import { Container, Grid } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { Form, useForm } from '../../components/useForm'
 import Controls from '../../components/controls/Controls'
+import states from '../../utils/states'
 
 const initialValues = {
     name: '',
@@ -70,31 +71,50 @@ const ShippingPage = ({history}) => {
 
     useEffect(() => {
         const shipping = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : null
-        console.log(shipping)
+       
         if (shipping) {
             
             setValues({...shipping})
         }
     }, [])
     return (
-        
-           
-            <Container>
-                
-                <Grid container alignItems='center' justify='center' style={{margin: 'auto'}} direction='column'>
+        <div className="main" style={{display: "flex", justifyContent: 'center', alignItems: 'center'}}>
+                <Grid container alignItems='center' justify='center' style={{margin: 'auto'}} style={{maxWidth: '800px'}}>
                     <h2 style={{textAlign: 'center', padding: '1rem'}}>Shipping Address</h2>
-                    <Grid item xs={12} md={12}>
-                        <Form onSubmit={handleSubmit}>
-                            <Controls.Input name='name' autoFocus value={values.name} error={errors.name} onChange={handleInputChange} label='First Name' />
-                            <Controls.Input name='lastName' value={values.lastName} error={errors.lastName} onChange={handleInputChange} label='Last Name' />
-                            <Controls.Input name='address' value={values.address} error={errors.address} onChange={handleInputChange} label='Address' placeholder='Ex. 123 Main St' />
-                            <Controls.Input name='apt' value={values.apt} onChange={handleInputChange} label='Apartment / Suite' placeholder='Ex. Apt 1A' />
-                            <Controls.Input name='city' value={values.city} error={errors.city} onChange={handleInputChange} label='City' placeholder='Please enter your city' />
-                            <Controls.Input name='state' value={values.state} error={errors.state} onChange={handleInputChange} label='State' placeholder='Please enter your state' />
+                    
+                    <Form onSubmit={handleSubmit}>
+                        <Grid item container>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Input name='name' autoFocus value={values.name} inputProps={{style: {textTransform: 'capitalize'}}} error={errors.name} onChange={handleInputChange} label='First Name' />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Input name='lastName' value={values.lastName} inputProps={{style: {textTransform: 'capitalize'}}} error={errors.lastName} onChange={handleInputChange} label='Last Name' />
+                            </Grid>
+
+                        </Grid>
+                        <Grid item container>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Input name='address' value={values.address} inputProps={{style: {textTransform: 'capitalize'}}} error={errors.address} onChange={handleInputChange} label='Address' placeholder='Ex. 123 Main St' />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Input name='apt' value={values.apt} onChange={handleInputChange} inputProps={{style: {textTransform: 'uppercase'}}} label='Apartment / Suite' placeholder='Ex. Apt 1A' />
+                            </Grid>
+
+                        </Grid>
+                        <Grid item container>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Input name='city' value={values.city} error={errors.city} inputProps={{style: {textTransform: 'capitalize'}}} onChange={handleInputChange} label='City' placeholder='Please enter your city' />  
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Controls.Select name='state' value={values.state} error={errors.state} inputProps={{style: {textTransform: 'capitalize'}}} onChange={handleInputChange} label='State' options={states} placeholder='Please enter your state' />
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
                             <Controls.Input name='zipcode' value={values.zipcode} inputProps={{maxLength: 5}} error={errors.zipcode} onChange={handleInputChange} label='Postal Code' placeholder='Ex 12345' />
                             <Controls.Input name='phone' value={values.phone} error={errors.phone} onChange={handleInputChange} label='Phone' placeholder='Ex. (555)-555-0000' />
                             <Controls.Input name='email' value={values.email}  error={errors.email} onChange={handleInputChange} label='Email Address' placeholder='Ex. johndoe@email.com' />
-                            
+                        </Grid>
+                           
                             <div className="btn_div">
                                 <Controls.Button text="Continue to Payment" type='submit' />
                                 <Controls.Button
@@ -103,12 +123,13 @@ const ShippingPage = ({history}) => {
                             onClick={resetForm} />
                             </div>
                         </Form>
-                    </Grid>
+                   
                     <Grid item xs={12} md={5}>
 
                     </Grid>
                 </Grid>
-                </Container>
+                </div>
+               
            
 
     )
