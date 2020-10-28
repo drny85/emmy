@@ -38,7 +38,13 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.get('/api/paypal', (req, res) => {
-  return res.json(process.env.PAYPAL_CLIENT_ID);
+  let client_id;
+  if (process.env.NODE_ENV === 'production') {
+    client_id = process.env.PAYPAL_CLIENT_ID_PRO;
+  } else if (process.env.NODE_ENV === 'development') {
+    client_id = process.env.PAYPAL_CLIENT_ID_PRO;
+  }
+  return res.json(client_id);
 });
 
 if (process.env.NODE_ENV === 'production') {
