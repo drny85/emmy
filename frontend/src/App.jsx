@@ -26,6 +26,7 @@ import {green} from '@material-ui/core/colors'
 import ShippingPage from './pages/shopping/ShippingPage';
 import OrderSummary from './pages/shopping/OrderSummary';
 import MyOrders from './pages/shopping/MyOrders';
+import OrderDetails from './pages/orders/OrderDetails';
 
 const theme = createMuiTheme({
   palette: {
@@ -93,6 +94,7 @@ useEffect(() => {
           <Route path="/cart" component={ShoppingCartScreen} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/shipping" component={ShippingPage} />
+          <Route path="/orders/:id" component={OrderDetails} />
           <Route path="/orders" component={MyOrders} />
           <Route path="/order-summary" component={OrderSummary} />
           <Route path="/admin/category" component={CategoryPage} />

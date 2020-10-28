@@ -1,22 +1,30 @@
-import { Container, Grid, Paper, List, ListItem, Divider } from '@material-ui/core'
+import { Container, Grid, Paper, List, ListItem, Divider, Button, IconButton } from '@material-ui/core'
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from "react-dom"
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import CartListItem from '../../components/CartListItem'
-import Button from '../../components/controls/Button'
+import {clearCart} from '../../reduxStore/actions/shoopingCart'
 import axios from '../../utils/axios'
 import {PayPalButton} from 'react-paypal-button-v2'
 import Loader from '../../components/Loader'
+import {Link, useHistory} from 'react-router-dom'
+import Order from '../../models/Order'
+import { placeOrder } from '../../reduxStore/actions/orderActions'
+import EditIcon from '@material-ui/icons/Edit';
 
 //const PayPalButton = paypal.Buttons.driver("react", { React, ReactDOM });
 
-const OrderSummary = ({history}) => {
+const OrderSummary = () => {
 
     const {cartItems, quantity, total }= useSelector(state => state.cartData)
     const shipping = JSON.parse(localStorage.getItem('shippingAddress'));
     const [isLoaded, setIsLoaded] = useState(false)
     const [isPaid, setIsPaid] = useState(false)
+    const [processing, setProcessing] = useState(false)
     const paypal = useRef()
+    const {user }= useSelector(state => state.userData)
+    const dispatch = useDispatch()
+    const history = useHistory()
 
     const createOrder =  (data, actions) => {
         
@@ -29,15 +37,39 @@ const OrderSummary = ({history}) => {
     }
 
     const onSuccess = async (details, data)=> {
-
-        //TODO:: place order
-        //TODO:: empty cart
+        setProcessing(true)
         setIsPaid(true)
-      
+        const paymentDetails = {
+            orderId: data.orderID,
+            order_time: details.create_time,
+            payer_id: details.payer.payer_id,
+            email: details.payer.email_address,
+            name: details.payer.name ? details.payer.name.given_name + ' ' + details.payer.name.surname : null,
+            status: details.status,
+            amount: details.purchase_units[0].amount.value
 
-        console.log(details)
-        console.log(data)
-        history.replace('/orders')
+        }
+        const customer = JSON.parse(localStorage.getItem('shippingAddress'))
+
+        const order = new Order(
+            customer.name + ' ' + customer.lastName,
+            {street: customer.address, apt: customer.apt, city: customer.city, state: customer.state, zipcode: customer.zipcode, email: customer.email},cartItems, parseFloat(total).toFixed(2),paymentDetails,true,paymentDetails.order_time,false, user ? user._id : null
+        )
+
+        if (details.status === 'COMPLETED') {
+          
+            const id = await dispatch(placeOrder(order))
+            if (id) {
+                dispatch(clearCart())
+                setProcessing(false)
+                history.replace(`/orders/${id}`)
+                localStorage.removeItem('shippingAddress')
+            }
+
+        } else {
+            return;
+        }
+       
     }
 
     const onError = err => {
@@ -79,16 +111,22 @@ const OrderSummary = ({history}) => {
      
 
       return () => {
-         console.log(window.paypal)
+         
       }
      
     }, [total, isLoaded])
 
-
+    if (processing) return <Loader />
 
     return (
-        <div className="summary" style={{display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center',  flex: 1, margin: 'auto', width: '90vw'}}>
-            <h2 style={{textAlign: 'center', marginBottom: '10px'}}>Order Summary</h2>
+        <Paper style={{width: '90vw', margin: 'auto', padding: '10px 0', maxWidth: '1400px'}}>
+        <div className="summary" style={{display: 'flex', flexDirection: 'column', alignContent: 'center', alignItems: 'center', margin: 'auto', width: '100%'}}>
+            <div className="top" style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', padding: '10px 5px'}}>
+             <Button color='secondary' variant='contained' component={Link} to='/cart'>Go to cart</Button>
+            <h2>Order Summary</h2>
+            <div />
+            </div>
+           
             <Grid container>
                 
                 <Grid item xs={12} md={7}>
@@ -113,12 +151,12 @@ const OrderSummary = ({history}) => {
                     <Paper style={{padding: '1rem'}}>
                         {shipping && (<>
                             <div style={{marginBottom: '8px'}}>
-                            <h4 style={{paddingBottom: '8px'}}>Customer Info</h4>
+                            <h4 style={{paddingBottom: '1px'}}>Customer Info <span style={{marginLeft: '12px'}}><IconButton onClick={() => history.goBack()}><EditIcon htmlColor='red' /></IconButton></span></h4> 
                             <p className='capitalize py-3'>{shipping.name}  {shipping.lastName} </p>
                             <p className='capitalize py-3'>{shipping.phone}</p>
                             <p >{shipping.email}</p>
                         </div>
-                        <div style={{marginBottom: '8px'}}>
+                        <div style={{margin: '8px 0px'}}>
                             <h4  style={{paddingBottom: '8px'}}>Shipping Address</h4>
                             <p className='capitalize py-3'>{shipping.address}  {shipping.apt} </p>
                             <p className='capitalize py-3'>{shipping.city}, {shipping.state} {shipping.zipcode}</p>
@@ -135,7 +173,9 @@ const OrderSummary = ({history}) => {
                     </Paper>
                 </Grid>
             </Grid>
+           
             </div>
+            </Paper>
     )
 }
 

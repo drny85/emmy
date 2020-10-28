@@ -13,7 +13,7 @@ body {
   box-sizing: border-box;
   height: 100vh;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(215deg, rgb(223, 177, 177), white);
+  background: linear-gradient(360deg, rgb(248, 248, 248), white);
   /* overflow: hidden; */
 }
 

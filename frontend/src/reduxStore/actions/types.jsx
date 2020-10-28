@@ -31,3 +31,11 @@ export const DELETE_CATEGORY ='DELETE_CATEGORY'
 export const CATEGORY_ERROR ='CATEGORY_ERROR'
 export const GET_CATEGORIES = 'GET_CATEGORIES'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
+
+
+// orders actions
+export const PLACE_ORDER = 'PLACE_ORDER'
+export const GET_ORDERS = 'GET_ORDERS'
+export const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID'
+export const RESET_ORDER = 'RESET_ORDER'
+export const ORDER_ERROR = 'ORDER_ERROR'

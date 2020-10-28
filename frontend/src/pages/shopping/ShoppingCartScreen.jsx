@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         flex: 1,
         width: '90vw',
+        maxWidth: '1300px',
       
         margin: '20px auto',
         justifyContents: 'center'
