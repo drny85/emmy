@@ -12,7 +12,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-import { removeFromCart, addToCart } from '../reduxStore/actions/shoopingCart';
+import { removeFromCart, addToCart } from '../reduxStore/actions/shoppingCart';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
@@ -52,9 +52,9 @@ const CartListItem = ({ product, showIncreaser = true }) => {
   return (
     <Grid
       container
-      justify="space-around"
-      alignItems="center"
-      className="cart_list_item"
+      justify='space-around'
+      alignItems='center'
+      className='cart_list_item'
     >
       <Hidden smDown>
         <Grid item xs={4} md={3}>
@@ -63,7 +63,7 @@ const CartListItem = ({ product, showIncreaser = true }) => {
       </Hidden>
 
       <Grid item xs={4} md={3}>
-        <h6 className="capitalize">{name}</h6>
+        <h6 className='capitalize'>{name}</h6>
         <p>
           {qty} x {price}
         </p>
@@ -71,9 +71,9 @@ const CartListItem = ({ product, showIncreaser = true }) => {
       {showIncreaser && (
         <Grid item xs={4} md={3}>
           <ButtonGroup
-            color="primary"
-            size="small"
-            aria-label="outlined primary button group"
+            color='primary'
+            size='small'
+            aria-label='outlined primary button group'
           >
             <Button onClick={handleDelete}>
               <RemoveRoundedIcon />
@@ -87,7 +87,7 @@ const CartListItem = ({ product, showIncreaser = true }) => {
       )}
       <Hidden smDown>
         <Grid item xs={4} md={3}>
-          <p className="bold">${parseFloat(price * qty).toFixed(2)}</p>
+          <p className='bold'>${parseFloat(price * qty).toFixed(2)}</p>
         </Grid>
       </Hidden>
 

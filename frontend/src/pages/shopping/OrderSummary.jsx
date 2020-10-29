@@ -7,12 +7,15 @@ import {
   Divider,
   Button,
   IconButton,
+  CircularProgress,
+  Backdrop,
+  makeStyles,
 } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import CartListItem from '../../components/CartListItem';
-import { clearCart } from '../../reduxStore/actions/shoopingCart';
+import { clearCart } from '../../reduxStore/actions/shoppingCart';
 import axios from '../../utils/axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 import Loader from '../../components/Loader';
@@ -22,8 +25,15 @@ import { placeOrder } from '../../reduxStore/actions/orderActions';
 import EditIcon from '@material-ui/icons/Edit';
 
 //const PayPalButton = paypal.Buttons.driver("react", { React, ReactDOM });
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const OrderSummary = () => {
+  const classes = useStyles();
   const { cartItems, quantity, total } = useSelector((state) => state.cartData);
   const shipping = JSON.parse(localStorage.getItem('shippingAddress'));
   const [loadState, setLoadState] = useState({ loading: false, loaded: false });
@@ -35,6 +45,7 @@ const OrderSummary = () => {
   const history = useHistory();
 
   const createOrder = (data, actions) => {
+    setProcessing(true);
     return actions.order.create({
       purchase_units: [
         {
@@ -45,7 +56,6 @@ const OrderSummary = () => {
   };
 
   const onSuccess = async (details, data) => {
-    setProcessing(true);
     setIsPaid(true);
     const paymentDetails = {
       orderId: data.orderID,
@@ -86,9 +96,10 @@ const OrderSummary = () => {
       const id = await dispatch(placeOrder(order));
       if (id) {
         dispatch(clearCart());
-        setProcessing(false);
+
         history.replace(`/orders/${id}`);
         localStorage.removeItem('shippingAddress');
+        setProcessing(false);
       }
     } else {
       return;
@@ -129,7 +140,7 @@ const OrderSummary = () => {
     return () => {};
   }, [total, loadState.loaded]);
 
-  if (processing) return <Loader />;
+  if (loadState.loading) return <Loader />;
 
   return (
     <Paper
@@ -141,7 +152,7 @@ const OrderSummary = () => {
       }}
     >
       <div
-        className="summary"
+        className='summary'
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -152,7 +163,7 @@ const OrderSummary = () => {
         }}
       >
         <div
-          className="top"
+          className='top'
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -162,10 +173,10 @@ const OrderSummary = () => {
           }}
         >
           <Button
-            color="secondary"
-            variant="contained"
+            color='secondary'
+            variant='contained'
             component={Link}
-            to="/cart"
+            to='/cart'
           >
             Go to cart
           </Button>
@@ -188,7 +199,7 @@ const OrderSummary = () => {
               </List>
               <Divider light />
               <div
-                className="total bold"
+                className='total bold'
                 style={{
                   padding: '15px 0px',
                   display: 'flex',
@@ -209,28 +220,28 @@ const OrderSummary = () => {
                       Customer Info{' '}
                       <span style={{ marginLeft: '12px' }}>
                         <IconButton onClick={() => history.goBack()}>
-                          <EditIcon htmlColor="red" />
+                          <EditIcon htmlColor='red' />
                         </IconButton>
                       </span>
                     </h4>
-                    <p className="capitalize py-3">
+                    <p className='capitalize py-3'>
                       {shipping.name} {shipping.lastName}{' '}
                     </p>
-                    <p className="capitalize py-3">{shipping.phone}</p>
+                    <p className='capitalize py-3'>{shipping.phone}</p>
                     <p>{shipping.email}</p>
                   </div>
                   <div style={{ margin: '8px 0px' }}>
                     <h4 style={{ paddingBottom: '8px' }}>Shipping Address</h4>
-                    <p className="capitalize py-3">
+                    <p className='capitalize py-3'>
                       {shipping.address} {shipping.apt}{' '}
                     </p>
-                    <p className="capitalize py-3">
+                    <p className='capitalize py-3'>
                       {shipping.city}, {shipping.state} {shipping.zipcode}
                     </p>
                   </div>
                 </>
               )}
-              <div ref={paypal} className="payment_btn">
+              <div ref={paypal} className='payment_btn'>
                 {loadState.loaded && (
                   <PayPalButton
                     disabled
@@ -248,6 +259,9 @@ const OrderSummary = () => {
           </Grid>
         </Grid>
       </div>
+      <Backdrop className={classes.backdrop} open={processing}>
+        <CircularProgress color='primary' />
+      </Backdrop>
     </Paper>
   );
 };

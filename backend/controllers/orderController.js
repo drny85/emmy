@@ -29,3 +29,9 @@ export const getOrderById = asyncHandler(async (req, res, next) => {
   res.status(400);
   throw new Error('no order found');
 });
+
+export const getOrders = asyncHandler(async (req, res, next) => {
+  const orders = await Order.find();
+
+  return res.json(orders);
+});

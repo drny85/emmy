@@ -1,42 +1,53 @@
 import Product from '../models/productModel.js';
 import asyncHandler from 'express-async-handler';
+import mongoose from 'mongoose';
 
 export const addProduct = asyncHandler(async (req, res) => {
+  console.log(req.user);
   const {
     name,
     description,
     price,
+    category,
     imageUrl,
     estimatedDelivery,
     available,
   } = req.body;
 
-  const product = new Product({
+  const product = await Product.create({
     name,
     description,
     price,
     imageUrl,
+    category,
     estimatedDelivery,
     available,
+    user: req.user._id,
   });
 
-  await product.save();
+  if (!product) {
+    res.status(400);
+    throw new Error('product was not added');
+  }
+
+  return res.json(product);
 });
 
 export const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find().populate('category');
 
   return res.status(200).json(products);
 });
 
-export const getProductById = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    return res.json(product);
-  } catch (error) {
-    console.log(error);
+export const getProductById = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400);
+    throw new Error('no product found or valid ID');
   }
-};
+  const product = await Product.findById(id);
+  return res.json(product);
+});
 
 export const updateProduct = asyncHandler(async (req, res, next) => {
   const id = req.params.id;

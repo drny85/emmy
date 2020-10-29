@@ -31,8 +31,15 @@
   padding: 10px;
 }
 .product_card_body_description {
-  display: flex;
-  align-items: center;
+  display: block;
+  min-height: 4rem;
+  height: 5rem;
+  width: '100%';
+
+  overflow: hidden;
+
+  white-space: wrap;
+  text-overflow: ellipsis;
 
   padding: 10px 0px;
 }

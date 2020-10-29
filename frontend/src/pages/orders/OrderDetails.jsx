@@ -6,8 +6,11 @@ import {
   resetOrder,
 } from '../../reduxStore/actions/orderActions';
 import Loader from '../../components/Loader';
+import CheckIcon from '@material-ui/icons/Check';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import {
   Button,
+  Chip,
   Divider,
   Grid,
   List,
@@ -49,52 +52,66 @@ const OrderDetails = () => {
 
           <Divider light />
           <Grid item xs={12} md={6}>
-            <List component="ul">
+            <List component='ul'>
               <ListItem>
-                <p className="capitalize">Order ID {order._id}</p>
+                <p className='capitalize'>Order ID: {order._id}</p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">
+                <p className='capitalize'>
                   Order Date: {new Date(order.placedOn).toLocaleString()}
                 </p>
               </ListItem>
               <Divider light />
               <ListItem>
-                <p className="capitalize bold">Customer Info</p>
+                <p className='capitalize bold'>Customer Info</p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">Name: {order.customer.name}</p>
+                <p className='capitalize'>Name: {order.customer.name}</p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">Phone: {order.customer.phone}</p>
+                <p className='capitalize'>Phone: {order.customer.phone}</p>
               </ListItem>
               <ListItem>
                 <p>Email: {order.customer.email}</p>
               </ListItem>
               <Divider light />
               <ListItem>
-                <p className="capitalize bold">Shipping Address</p>
+                <p className='capitalize bold'>Shipping Address</p>
               </ListItem>
               <ListItem>
-                <p>
+                <p className='capitalize'>
                   {order.shippingAddress.street}{' '}
                   {order.shippingAddress.apt && order.shippingAddress.apt}
                 </p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">
+                <p className='capitalize'>
                   {order.shippingAddress.city}, {order.shippingAddress.state}{' '}
                   {order.shippingAddress.zipcode}
                 </p>
               </ListItem>
               <Divider light />
               <ListItem>
-                <p className="capitalize">
-                  Payment Status: {order.isPaid ? 'Paid' : 'Pending'}
+                <p className='capitalize'>
+                  Payment Status:{' '}
+                  {order.isPaid ? (
+                    <Chip
+                      color='secondary'
+                      variant='outlined'
+                      label='Paid'
+                      icon={<CheckIcon htmlColor='green' />}
+                    />
+                  ) : (
+                    <Chip
+                      label='Not paid'
+                      color='default'
+                      icon={<NotInterestedIcon htmlColor='red' />}
+                    />
+                  )}
                 </p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">
+                <p className='capitalize'>
                   Delivery Status:{' '}
                   <span>
                     {order.isDelivered ? (
@@ -102,9 +119,9 @@ const OrderDetails = () => {
                     ) : (
                       <span style={{ marginRight: '10px' }}>
                         <Button
-                          size="small"
-                          variant="outlined"
-                          color="secondary"
+                          size='small'
+                          variant='outlined'
+                          color='secondary'
                         >
                           Add Tracking Number
                         </Button>
@@ -114,7 +131,7 @@ const OrderDetails = () => {
                 </p>
               </ListItem>
               <ListItem>
-                <p className="capitalize">Order Total: ${order.orderTotal}</p>
+                <p className='capitalize'>Order Total: ${order.orderTotal}</p>
               </ListItem>
             </List>
           </Grid>
