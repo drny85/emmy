@@ -108,7 +108,7 @@ const ProductList = ({ history }) => {
                 <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell>Categpry</TableCell>
+                <TableCell>Category</TableCell>
                 <TableCell align='center'>Available</TableCell>
                 <TableCell align='center'>Delivery In</TableCell>
                 <TableCell align='center'>Actions</TableCell>
