@@ -44,6 +44,32 @@ export const getOrderById = (id) => async (dispatch) => {
   }
 };
 
+export const updateOrder = (order) => async (dispatch, getState) => {
+  try {
+    const {
+      userData: { user },
+    } = getState();
+
+    if (!user) {
+      dispatch({ type: ORDER_ERROR, payload: 'not authorized' });
+      return;
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    console.log(order);
+    const { data } = await axios.put(`/api/orders/${order._id}`, order);
+    dispatch({ type: GET_ORDER_BY_ID, payload: data });
+  } catch (error) {
+    console.error(error);
+    dispatch({ type: ORDER_ERROR, payload: responseError(error) });
+  }
+};
+
 export const resetOrder = () => (dispatch) => dispatch({ type: RESET_ORDER });
 
 const setLoading = () => (dispatch) => dispatch({ type: SET_LOADING });

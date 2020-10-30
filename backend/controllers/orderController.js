@@ -31,7 +31,24 @@ export const getOrderById = asyncHandler(async (req, res, next) => {
 });
 
 export const getOrders = asyncHandler(async (req, res, next) => {
-  const orders = await Order.find();
+  const orders = await Order.find({}).sort('-placedOn');
 
   return res.json(orders);
+});
+
+export const updateOrder = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+
+  const order = req.body;
+
+  const updated = await Order.findOneAndUpdate({ _id: id }, order, {
+    new: true,
+  });
+
+  if (!updated) {
+    res.status(400);
+    throw new Error('error updating order');
+  }
+
+  return res.json(updated);
 });

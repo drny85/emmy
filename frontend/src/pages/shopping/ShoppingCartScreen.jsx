@@ -161,7 +161,12 @@ const ShoppingCartScreen = ({ history }) => {
           <Button onClick={handleClose} color='primary'>
             No
           </Button>
-          <Button onClick={emptyCart} color='primary' autoFocus>
+          <Button
+            style={{ color: 'red' }}
+            onClick={emptyCart}
+            color='primary'
+            autoFocus
+          >
             Yes
           </Button>
         </DialogActions>

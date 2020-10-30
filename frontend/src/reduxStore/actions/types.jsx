@@ -34,5 +34,6 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const PLACE_ORDER = 'PLACE_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
 export const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
+export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const RESET_ORDER = 'RESET_ORDER';
 export const ORDER_ERROR = 'ORDER_ERROR';

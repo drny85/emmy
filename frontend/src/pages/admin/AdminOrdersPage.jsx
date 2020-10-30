@@ -59,6 +59,7 @@ const AdminOrdersPage = ({ history }) => {
               <TableCell className={classes.cell}>Address</TableCell>
               <TableCell className={classes.cell}>Amount</TableCell>
               <TableCell className={classes.cell}>Date</TableCell>
+              <TableCell className={classes.cell}>Delivered</TableCell>
               <TableCell className={classes.cell}>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -75,6 +76,7 @@ const AdminOrdersPage = ({ history }) => {
                 <TableCell>
                   {new Date(order.placedOn).toLocaleString()}
                 </TableCell>
+                <TableCell>{order.deliveredOn ? 'Yes' : 'No'}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => history.push(`/orders/${order._id}`)}

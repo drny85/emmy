@@ -19,6 +19,10 @@ body {
   /* overflow: hidden; */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 header {
   position: sticky;
   top: 0px;
@@ -56,6 +60,7 @@ header {
 .py-3 {
   padding: 3px 0px;
 }
+
 /* .cart_list_item:hover {
   transform: scale(1.023);
   cursor: pointer;

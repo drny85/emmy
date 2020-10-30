@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getOrderById,
   resetOrder,
+  updateOrder,
 } from '../../reduxStore/actions/orderActions';
 import Loader from '../../components/Loader';
 import CheckIcon from '@material-ui/icons/Check';
@@ -11,12 +12,17 @@ import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import {
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
   Divider,
   Grid,
+  Link,
   List,
   ListItem,
-  ListItemText,
   Paper,
+  TextField,
 } from '@material-ui/core';
 import CartListItem from '../../components/CartListItem';
 
@@ -24,7 +30,10 @@ const OrderDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { order, loading } = useSelector((state) => state.ordersData);
-  console.log(order);
+  const { user } = useSelector((state) => state.userData);
+  const [show, setShow] = useState(false);
+  const [tracking, setTracking] = useState('');
+  console.log(tracking);
   useEffect(() => {
     dispatch(getOrderById(id));
 
@@ -32,6 +41,19 @@ const OrderDetails = () => {
       dispatch(resetOrder());
     };
   }, [id, dispatch]);
+
+  const handleUpdate = () => {
+    order.isDelivered = true;
+    order.trackingNumber = tracking;
+    order.deliveredOn = new Date().toISOString();
+    dispatch(updateOrder(order));
+    setShow(false);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setTracking('');
+  };
 
   if (!order) return <Loader />;
   return (
@@ -93,8 +115,8 @@ const OrderDetails = () => {
               </ListItem>
               <Divider light />
               <ListItem>
-                <p className='capitalize'>
-                  Payment Status:{' '}
+                <p className='capitalize'>Payment Status: </p>
+                <span style={{ marginLeft: '8px' }}>
                   {order.isPaid ? (
                     <Chip
                       color='secondary'
@@ -109,28 +131,59 @@ const OrderDetails = () => {
                       icon={<NotInterestedIcon htmlColor='red' />}
                     />
                   )}
-                </p>
+                </span>{' '}
               </ListItem>
               <ListItem>
                 <p className='capitalize'>
                   Delivery Status:{' '}
                   <span>
                     {order.isDelivered ? (
-                      'Delivered'
-                    ) : (
+                      <>
+                        <Button
+                          variant='contained'
+                          component={Link}
+                          href={`https://www.google.com/search?q=${order.trackingNumber}`}
+                          target='_black'
+                        >
+                          Track Order
+                        </Button>
+                        {user && user.isAdmin && order.isDelivered && (
+                          <span style={{ marginLeft: '10px' }}>
+                            <Button
+                              size='small'
+                              variant='outlined'
+                              color='secondary'
+                              onClick={() => setShow(true)}
+                            >
+                              Update Tracking Number
+                            </Button>
+                          </span>
+                        )}
+                      </>
+                    ) : user && user.isAdmin ? (
                       <span style={{ marginRight: '10px' }}>
                         <Button
                           size='small'
                           variant='outlined'
                           color='secondary'
+                          onClick={() => setShow(true)}
                         >
                           Add Tracking Number
                         </Button>
                       </span>
+                    ) : (
+                      'pending'
                     )}
                   </span>
                 </p>
               </ListItem>
+              {order.deliveredOn && (
+                <ListItem>
+                  <p className='capitalize'>
+                    Delivered On: {new Date(order.deliveredOn).toLocaleString()}
+                  </p>
+                </ListItem>
+              )}
               <ListItem>
                 <p className='capitalize'>Order Total: ${order.orderTotal}</p>
               </ListItem>
@@ -151,6 +204,37 @@ const OrderDetails = () => {
             </List>
           </Grid>
         </Grid>
+        <Dialog open={show}>
+          <DialogContent>
+            <DialogContentText>Adding Tracking Number</DialogContentText>
+            <TextField
+              id='outlined-basic'
+              label='Tracking Number'
+              style={{ width: '300px' }}
+              variant='outlined'
+              inputProps={{ style: { textTransform: 'uppercase' } }}
+              value={tracking}
+              onChange={(e) => setTracking(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              style={{ color: 'red' }}
+              onClick={handleClose}
+              color='primary'
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{ color: 'green' }}
+              onClick={handleUpdate}
+              color='primary'
+              autoFocus
+            >
+              Update
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </div>
   );
