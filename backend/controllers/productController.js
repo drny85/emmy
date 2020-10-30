@@ -71,3 +71,19 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     throw new Error('error updating product');
   }
 });
+
+export const deleteProduct = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400);
+    throw new Error('no product found or valid ID');
+  }
+  const product = await Product.findById(id);
+  if (!product) {
+    res.status(400);
+    throw new Error(`not product found with id ${id}`);
+  }
+
+  await product.remove();
+  return res.json({ msg: 'product deleted' });
+});

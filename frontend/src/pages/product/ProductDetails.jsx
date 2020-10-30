@@ -92,7 +92,7 @@ const ProductDetails = ({ match, history }) => {
 
   return (
     <div
-      className='product_details'
+      className='product_details animate__animated animate__backInDown'
       style={{ maxWidth: '980px', margin: 'auto' }}
     >
       <Container>

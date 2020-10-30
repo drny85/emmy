@@ -12,7 +12,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import CartListItem from '../../components/CartListItem';
 import { clearCart } from '../../reduxStore/actions/shoppingCart';
@@ -24,7 +24,6 @@ import Order from '../../models/Order';
 import { placeOrder } from '../../reduxStore/actions/orderActions';
 import EditIcon from '@material-ui/icons/Edit';
 
-//const PayPalButton = paypal.Buttons.driver("react", { React, ReactDOM });
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -45,7 +44,6 @@ const OrderSummary = () => {
   const history = useHistory();
 
   const createOrder = (data, actions) => {
-    setProcessing(true);
     return actions.order.create({
       purchase_units: [
         {
@@ -56,6 +54,7 @@ const OrderSummary = () => {
   };
 
   const onSuccess = async (details, data) => {
+    setProcessing(true);
     setIsPaid(true);
     const paymentDetails = {
       orderId: data.orderID,
@@ -111,6 +110,7 @@ const OrderSummary = () => {
   };
 
   const onCancel = (data) => {
+    console.error('payment was cancelled');
     console.log(data);
   };
 
@@ -118,7 +118,6 @@ const OrderSummary = () => {
     const addPaypal = async () => {
       try {
         const { data } = await axios.get('/api/paypal');
-        console.log('client', data);
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
@@ -138,7 +137,7 @@ const OrderSummary = () => {
     }
 
     return () => {};
-  }, [total, loadState.loaded]);
+  }, [total, loadState.loaded, loadState.loading]);
 
   if (loadState.loading) return <Loader />;
 
@@ -148,7 +147,7 @@ const OrderSummary = () => {
         width: '90vw',
         margin: 'auto',
         padding: '10px 0',
-        maxWidth: '1400px',
+        maxWidth: '1200px',
       }}
     >
       <div
@@ -233,7 +232,11 @@ const OrderSummary = () => {
                   <div style={{ margin: '8px 0px' }}>
                     <h4 style={{ paddingBottom: '8px' }}>Shipping Address</h4>
                     <p className='capitalize py-3'>
-                      {shipping.address} {shipping.apt}{' '}
+                      {shipping.address}{' '}
+                      <span style={{ textTransform: 'uppercase' }}>
+                        {' '}
+                        {shipping.apt}{' '}
+                      </span>
                     </p>
                     <p className='capitalize py-3'>
                       {shipping.city}, {shipping.state} {shipping.zipcode}
@@ -244,7 +247,7 @@ const OrderSummary = () => {
               <div ref={paypal} className='payment_btn'>
                 {loadState.loaded && (
                   <PayPalButton
-                    disabled
+                    shippingPreference='SET_PROVIDED_ADDRESS'
                     createOrder={createOrder}
                     onButtonReady={() =>
                       setLoadState({ loading: false, loaded: true })

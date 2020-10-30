@@ -1,5 +1,6 @@
 import {
   ADD_PRODUCT,
+  DELETE_PRODUCT,
   GET_PRODUCTS,
   PRODUCT_ERROR,
   RESET_PRODUCT,
@@ -95,10 +96,46 @@ const updateProduct = (product) => async (dispatch, getState) => {
   }
 };
 
+const deleteProduct = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      userData: { user },
+    } = getState();
+
+    if (!user) {
+      dispatch({ type: PRODUCT_ERROR, payload: 'not authorized' });
+      return;
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    setLoading();
+    const { data } = await axios.delete(`/api/products/${id}`, config);
+    dispatch({ type: DELETE_PRODUCT, payload: id });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    dispatch({ type: PRODUCT_ERROR, payload: responseError(error) });
+    return false;
+  }
+};
+
 const resetProduct = () => (dispatch) => {
   dispatch({ type: RESET_PRODUCT });
 };
 
 const setLoading = () => (dispath) => dispath({ type: SET_LOADING });
 
-export { getProducts, addProduct, getProductById, resetProduct, updateProduct };
+export {
+  getProducts,
+  addProduct,
+  getProductById,
+  resetProduct,
+  updateProduct,
+  deleteProduct,
+};

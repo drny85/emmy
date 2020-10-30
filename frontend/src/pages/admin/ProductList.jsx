@@ -14,8 +14,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import AddIcon from '@material-ui/icons/Add';
 
-import { getProducts } from '../../reduxStore/actions/products';
+import { getProducts, deleteProduct } from '../../reduxStore/actions/products';
 import Loader from '../../components/Loader';
 import { Link } from 'react-router-dom';
 import EmptyPage from '../../components/EmptyPage';
@@ -39,11 +40,11 @@ const useStyles = makeStyles({
 const ProductList = ({ history }) => {
   const classes = useStyles();
   const { products, loading } = useSelector((state) => state.productsData);
-
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    console.log(id);
+    dispatch(deleteProduct(id));
+    // dispatch(getProducts());
   };
   useEffect(() => {
     dispatch(getProducts());
@@ -80,6 +81,7 @@ const ProductList = ({ history }) => {
           <Grid item sx={4}>
             <Button
               variant='outlined'
+              startIcon={<AddIcon />}
               color='primary'
               component={Link}
               to='/admin/product'
@@ -103,21 +105,27 @@ const ProductList = ({ history }) => {
               }}
             >
               <TableRow>
+                <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Price</TableCell>
+                <TableCell>Categpry</TableCell>
                 <TableCell align='center'>Available</TableCell>
                 <TableCell align='center'>Delivery In</TableCell>
                 <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+              {products.map((product, i) => (
                 <TableRow key={product._id}>
+                  <TableCell>{i + 1}</TableCell>
                   <TableCell className='capitalize' component='th' scope='row'>
                     {product.name}
                   </TableCell>
 
                   <TableCell>${product.price}</TableCell>
+                  <TableCell className='capitalize'>
+                    {product.category.name}
+                  </TableCell>
                   <TableCell align='center'>
                     {product.available ? (
                       <CheckIcon color='primary' />

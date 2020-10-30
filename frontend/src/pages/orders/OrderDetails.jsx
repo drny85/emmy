@@ -42,6 +42,7 @@ const OrderDetails = () => {
         alignItems: 'center',
         width: '90vw',
         margin: 'auto',
+        maxWidth: '1200px',
       }}
     >
       <Paper style={{ width: '100%' }}>
