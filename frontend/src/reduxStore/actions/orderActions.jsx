@@ -61,7 +61,7 @@ export const updateOrder = (order) => async (dispatch, getState) => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    console.log(order);
+
     const { data } = await axios.put(`/api/orders/${order._id}`, order);
     dispatch({ type: GET_ORDER_BY_ID, payload: data });
   } catch (error) {

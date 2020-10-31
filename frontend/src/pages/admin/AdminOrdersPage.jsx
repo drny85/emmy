@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody,
   IconButton,
+  Button,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getOrders } from '../../reduxStore/actions/orderActions';
 import Loader from '../../components/Loader';
 import EmptyPage from '../../components/EmptyPage';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -48,7 +50,24 @@ const AdminOrdersPage = ({ history }) => {
   }
   return (
     <div style={{ maxWidth: '1200px', margin: 'auto' }}>
-      <div className='title' style={{ padding: '15px 0px' }}>
+      <div
+        className='title'
+        style={{
+          padding: '15px 0px',
+
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          variant='outlined'
+          style={{ marginRight: '40px' }}
+          startIcon={<ArrowBackIcon />}
+          color='primary'
+          onClick={() => history.goBack()}
+        >
+          Back
+        </Button>
         <h3>Manage Orders</h3>
       </div>
       <TableContainer component={Paper}>

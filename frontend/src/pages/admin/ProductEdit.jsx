@@ -23,12 +23,14 @@ import {
   resetProduct,
   deleteProduct,
 } from '../../reduxStore/actions/products';
+import { getCategories } from '../../reduxStore/actions/categoryActions';
 import Message from '../../components/Message';
 
 const initialValues = {
   name: '',
   description: '',
   price: '',
+  category: '',
   imageUrl: '',
   estimatedDelivery: '',
   available: true,
@@ -58,6 +60,8 @@ const ProductEdit = ({ match, history }) => {
     (state) => state.productsData
   );
 
+  const { categories } = useSelector((state) => state.categoriesData);
+
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
 
@@ -72,6 +76,10 @@ const ProductEdit = ({ match, history }) => {
           : 'Minimum 10 characters required.';
     if ('price' in fieldValues)
       temp.price = fieldValues.price.length !== 0 ? '' : 'Price is required';
+
+    if ('category' in fieldValues)
+      temp.category =
+        fieldValues.category.length !== 0 ? '' : 'category is required';
 
     if ('estimatedDelivery' in fieldValues)
       temp.estimatedDelivery =
@@ -173,6 +181,7 @@ const ProductEdit = ({ match, history }) => {
   useEffect(() => {
     if (!product) {
       dispatch(getProductById(productId));
+      dispatch(getCategories());
     }
     return () => {
       dispatch(resetProduct());
@@ -238,6 +247,15 @@ const ProductEdit = ({ match, history }) => {
               step='1'
               min='0'
               label='Price'
+              onChange={handleInputChange}
+            />
+            <Controls.Select
+              name='category'
+              value={values.category}
+              error={errors.category}
+              options={categories}
+              inputProps={{ styles: { textTransform: 'capitalize' } }}
+              label='Category or Collection'
               onChange={handleInputChange}
             />
 

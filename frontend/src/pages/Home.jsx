@@ -93,74 +93,80 @@ const Home = () => {
         justifyItems: 'center',
         margin: 'auto',
         maxWidth: '1700px',
+        flexDirection: 'column',
       }}
     >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyItems: 'center',
+        }}
+        className='select'
+      >
+        <FormControl variant='outlined' className={classes.formControl}>
+          <InputLabel id='demo-simple-select-label'>
+            View By category
+          </InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            label='View By Category'
+            value={goto}
+            onChange={handleChange}
+          >
+            {categories.map((category) => (
+              <MenuItem
+                className='capitalize'
+                style={{ marginTop: '20px' }}
+                key={category._id}
+                value={category._id}
+              >
+                <Button fullWidth href={`#${category._id}`}>
+                  {category.name}
+                </Button>
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <Grid container alignContent='center'>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyItems: 'center',
-          }}
-          className='select'
-        >
-          <FormControl variant='outlined' className={classes.formControl}>
-            <InputLabel id='demo-simple-select-label'>
-              View By category
-            </InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              label='View By Category'
-              value={goto}
-              onChange={handleChange}
-            >
-              {categories.map((category) => (
-                <MenuItem
-                  className='capitalize'
-                  key={category._id}
-                  value={category._id}
-                >
-                  <Button style={{ width: '100%' }} href={`#${category._id}`}>
-                    {category.name}
-                  </Button>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
         <Grid item>
           {categories.map((category) => {
             return (
-              <div id={category._id} key={category._id} className='items '>
-                {products.filter((p) => p.category._id === category._id)
-                  .length > 0 && (
-                  <h2
-                    style={{ padding: '10px' }}
-                    className={`capitalize ${
-                      goto === category._id
-                        ? 'animate__animated animate__flash selected'
-                        : ''
-                    }`}
-                  >
-                    {category.name}
-                  </h2>
-                )}
+              <section id={category._id} key={category._id}>
+                <div className='items '>
+                  {products.filter((p) => p.category._id === category._id)
+                    .length > 0 && (
+                    <h2
+                      style={{ padding: '10px', marginTop: '00px' }}
+                      className={`capitalize ${
+                        goto === category._id
+                          ? 'animate__animated animate__flash selected'
+                          : ''
+                      }`}
+                    >
+                      {category.name}
+                    </h2>
+                  )}
 
-                <Grid item container>
-                  {products
-                    .filter((product) => product.category._id === category._id)
-                    .map((item) => (
-                      <Grid key={item._id} item>
-                        <ProductCard
-                          product={item}
-                          onClick={() => goToDetails(item._id)}
-                        />
-                      </Grid>
-                    ))}
-                </Grid>
-                <Divider variant='middle' />
-              </div>
+                  <Grid item container>
+                    {products
+                      .filter(
+                        (product) => product.category._id === category._id
+                      )
+                      .map((item) => (
+                        <Grid key={item._id} item>
+                          <ProductCard
+                            product={item}
+                            onClick={() => goToDetails(item._id)}
+                          />
+                        </Grid>
+                      ))}
+                  </Grid>
+                  <Divider variant='middle' />
+                </div>
+              </section>
             );
           })}
         </Grid>

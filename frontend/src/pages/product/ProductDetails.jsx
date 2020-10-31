@@ -42,10 +42,15 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  buttonStyle: (props) => {
+    return {
+      [theme.breakpoints.down('xs')]: { width: '100%' },
+    };
+  },
 }));
 
-const ProductDetails = ({ match, history }) => {
-  const classes = useStyles();
+const ProductDetails = ({ match, history, full }) => {
+  const classes = useStyles({ full });
   const { product } = useSelector((state) => state.productsData);
   const { user } = useSelector((state) => state.userData);
   const id = match.params.id;
@@ -183,10 +188,14 @@ const ProductDetails = ({ match, history }) => {
                   <Button
                     onClick={handleAddToCart}
                     disabled={!product.available}
-                    style={{ marginTop: '10px', marginRight: '5px' }}
+                    style={{
+                      marginTop: '10px',
+                      marginRight: '5px',
+                    }}
                     startIcon={<ShoppingCartIcon />}
                     variant='contained'
                     size='large'
+                    className={classes.buttonStyle}
                     color='primary'
                   >
                     Add to Cart

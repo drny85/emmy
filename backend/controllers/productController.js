@@ -56,12 +56,21 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     description,
     price,
     imageUrl,
+    category,
     estimatedDelivery,
     available,
   } = req.body;
   const updated = await Product.findByIdAndUpdate(
     id,
-    { name, description, price, imageUrl, estimatedDelivery, available },
+    {
+      name,
+      description,
+      price,
+      imageUrl,
+      category,
+      estimatedDelivery,
+      available,
+    },
     { new: true }
   );
   if (updated) {

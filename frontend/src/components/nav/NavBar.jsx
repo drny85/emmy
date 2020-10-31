@@ -3,21 +3,27 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 
 import './NavBar.css';
 
+const useStyles = makeStyles((theme) => ({}));
+
 const HamNav = () => {
   const input = useRef();
+  const classes = useStyles();
+
   const { quantity } = useSelector((state) => state.cartData);
-  const { user, loading } = useSelector((state) => state.userData);
+  const { loading, user } = useSelector((state) => state.userData);
 
   const checkInput = () => {
     if (input.current.checked) {
       input.current.checked = false;
     }
   };
+
   return (
-    <header>
+    <header className={classes.root}>
       <div className='menu-wrap'>
         <input ref={input} type='checkbox' className='toggler' />
 
@@ -41,7 +47,7 @@ const HamNav = () => {
                 </li>
                 <li>
                   <Link onClick={checkInput} to='/signup'>
-                    {user ? user?.name : 'Login'}
+                    {user && !loading && user.name ? user.name : 'Login'}
                   </Link>
                 </li>
               </ul>
@@ -49,11 +55,32 @@ const HamNav = () => {
           </div>
         </div>
         <div className='links'>
+          <Hidden mdUp>
+            <ul>
+              <li style={{ marginRight: 'auto', marginLeft: '70px' }}>
+                <Link
+                  style={{ fontSize: '1.1rem' }}
+                  onClick={checkInput}
+                  to='/'
+                >
+                  Emmy-Dash
+                </Link>
+              </li>
+              <li>
+                <Link onClick={checkInput} to='/cart'>
+                  {' '}
+                  <Badge badgeContent={quantity} color='secondary'>
+                    <ShoppingCartIcon />
+                  </Badge>
+                </Link>
+              </li>
+            </ul>
+          </Hidden>
           <Hidden smDown>
             <ul>
               <li style={{ marginRight: 'auto', marginLeft: '70px' }}>
                 <Link onClick={checkInput} to='/'>
-                  EmmyDash Artsy
+                  Emmy-Dash
                 </Link>
               </li>
               <li>

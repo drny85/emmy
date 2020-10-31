@@ -19,7 +19,6 @@ import Login from './pages/auth/Login';
 import ProductEdit from './pages/admin/ProductEdit';
 import CategoryPage from './pages/categories/CategoryPage';
 import { createCart, getCartById } from './reduxStore/actions/shoppingCart';
-import { green } from '@material-ui/core/colors';
 
 import ShippingPage from './pages/shopping/ShippingPage';
 import OrderSummary from './pages/shopping/OrderSummary';
@@ -30,15 +29,15 @@ import AdminOrdersPage from './pages/admin/AdminOrdersPage';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#002984',
-      main: '#212121',
-      dark: '#002884',
+      light: '#4f83cc',
+      main: '#01579b',
+      dark: '#002f6c',
       contrastText: '#f5f5f5',
     },
     secondary: {
-      light: '#5d659c',
-      main: '#01579b',
-      dark: '#ba000d',
+      light: '#718792',
+      main: '#455a64',
+      dark: '#1c313a',
       contrastText: '#eceff1',
     },
   },

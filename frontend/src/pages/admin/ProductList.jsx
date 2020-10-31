@@ -14,6 +14,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AddIcon from '@material-ui/icons/Add';
 
 import { getProducts, deleteProduct } from '../../reduxStore/actions/products';
@@ -73,7 +74,17 @@ const ProductList = ({ history }) => {
     <div className={classes.root}>
       <Container>
         <Grid container alignContent='center'>
-          <Grid item xs={8}>
+          <Grid item xs={4}>
+            <Button
+              variant='outlined'
+              startIcon={<ArrowBackIcon />}
+              color='primary'
+              onClick={() => history.goBack()}
+            >
+              Back
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
             <Typography align='center' variant='h4'>
               Products List
             </Typography>

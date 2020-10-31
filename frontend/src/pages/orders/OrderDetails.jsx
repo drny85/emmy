@@ -33,7 +33,7 @@ const OrderDetails = () => {
   const { user } = useSelector((state) => state.userData);
   const [show, setShow] = useState(false);
   const [tracking, setTracking] = useState('');
-  console.log(tracking);
+
   useEffect(() => {
     dispatch(getOrderById(id));
 
@@ -54,6 +54,8 @@ const OrderDetails = () => {
     setShow(false);
     setTracking('');
   };
+
+  if (loading) return <Loader />;
 
   if (!order) return <Loader />;
   return (

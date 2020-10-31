@@ -8,6 +8,7 @@ import {
   Typography,
   Divider,
   IconButton,
+  Button,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Form, useForm } from '../../components/useForm';
@@ -15,6 +16,7 @@ import Controls from '../../components/controls/Controls';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../../reduxStore/actions/categoryActions';
 import Message from '../../components/Message';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
   getCategories,
   updateCategory,
@@ -24,7 +26,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Loader from '../../components/Loader';
 
-const CategoryPage = () => {
+const CategoryPage = ({ history }) => {
   const dispatch = useDispatch();
   const [_id, setId] = useState(null);
   const [mode, setMode] = useState('add');
@@ -95,6 +97,14 @@ const CategoryPage = () => {
         style={{ padding: '10px', marginTop: '100px', minHeight: '400px' }}
         elevation={6}
       >
+        <Button
+          variant='outlined'
+          startIcon={<ArrowBackIcon />}
+          color='primary'
+          onClick={() => history.goBack()}
+        >
+          Back
+        </Button>
         <Typography align='center' variant='h4'>
           Categories
         </Typography>
