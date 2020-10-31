@@ -1,5 +1,4 @@
 import {
-  Container,
   Grid,
   Paper,
   List,
@@ -10,8 +9,10 @@ import {
   CircularProgress,
   Backdrop,
   makeStyles,
+  TextField,
 } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import CartListItem from '../../components/CartListItem';
@@ -23,6 +24,8 @@ import { Link, useHistory } from 'react-router-dom';
 import Order from '../../models/Order';
 import { placeOrder } from '../../reduxStore/actions/orderActions';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
+import responseError from '../../utils/responseError';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -31,8 +34,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const COUPONS = [
+  {
+    _id: 1,
+    code: 'dddd20',
+    value: 20,
+    expires: moment().add(1, 'hour'),
+  },
+];
+
 const OrderSummary = () => {
   const classes = useStyles();
+  const [coupon, setCoupon] = useState('');
+  const [applied, setApplied] = useState({});
+  const [error, setError] = useState(false);
+  const [newPrice, setNewPrice] = useState(null);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponError, setCouponError] = useState(null);
   const { cartItems, quantity, total } = useSelector((state) => state.cartData);
   const shipping = JSON.parse(localStorage.getItem('shippingAddress'));
   const [loadState, setLoadState] = useState({ loading: false, loaded: false });
@@ -44,18 +62,74 @@ const OrderSummary = () => {
   const history = useHistory();
 
   const createOrder = (data, actions) => {
+    console.log(data);
     return actions.order.create({
       purchase_units: [
         {
-          amount: { value: parseFloat(total).toFixed(2) },
+          amount: {
+            value: couponApplied
+              ? parseFloat(newPrice).toFixed(2)
+              : parseFloat(total).toFixed(2),
+          },
         },
       ],
     });
   };
 
+  const handleCoupon = async () => {
+    try {
+      if (coupon.length === 0) return;
+      if (couponApplied) {
+        setError(true);
+        setCouponError('only one coupon allowed');
+        setTimeout(() => {
+          setError(false);
+          setCouponError('');
+        }, 3000);
+        return;
+      }
+      const { data } = await axios.post('/api/coupons/get', { code: coupon });
+      const found = data;
+      setApplied(found);
+
+      if (!found && coupon.length > 0) {
+        setError(true);
+        setCouponError('Invalid coupon');
+        setTimeout(() => {
+          setError(false);
+          setCouponError('');
+        }, 3000);
+      } else if (found && coupon.length > 0) {
+        const notExpired =
+          Date.parse(found.expires) < Date.parse(new Date().toISOString());
+
+        // check if coupon expired
+        if (!notExpired) {
+          //apply coupon
+          const amountToApply = (total * found.value) / 100;
+          const newTotal = total - amountToApply;
+          setNewPrice(parseFloat(newTotal).toFixed(2));
+          setCouponApplied(true);
+          setCoupon('');
+        } else {
+          setError(true);
+          setCouponError('Coupon expired');
+        }
+      }
+    } catch (error) {
+      const e = responseError(error);
+      setError(true);
+      setCouponError(e);
+      setTimeout(() => {
+        setError(false);
+        setCouponError('');
+      }, 3000);
+    }
+  };
   const onSuccess = async (details, data) => {
     setProcessing(true);
     setIsPaid(true);
+
     const paymentDetails = {
       orderId: data.orderID,
       order_time: details.create_time,
@@ -83,24 +157,26 @@ const OrderSummary = () => {
         zipcode: customer.zipcode,
       },
       cartItems,
-      parseFloat(total).toFixed(2),
+      couponApplied
+        ? parseFloat(newPrice).toFixed(2)
+        : parseFloat(total).toFixed(2),
       paymentDetails,
       true,
       paymentDetails.order_time,
       false,
       null,
       null,
-      user ? user._id : null
+      user ? user._id : null,
+      coupon ? coupon : null
     );
 
     if (details.status === 'COMPLETED') {
       const id = await dispatch(placeOrder(order));
       if (id) {
         dispatch(clearCart());
-
-        history.replace(`/orders/${id}`);
-        localStorage.removeItem('shippingAddress');
         setProcessing(false);
+        history.replace(`/orders/${id}`);
+        //localStorage.removeItem('shippingAddress');
       }
     } else {
       return;
@@ -181,7 +257,7 @@ const OrderSummary = () => {
           >
             Go to cart
           </Button>
-          <h2>Order Summary</h2>
+          <h4>Order Summary</h4>
           <div />
         </div>
 
@@ -207,8 +283,29 @@ const OrderSummary = () => {
                   justifyContent: 'space-around',
                 }}
               >
-                <p>Total Items: {quantity}</p>
-                <p>Grand Total: ${parseFloat(total).toFixed(2)}</p>
+                <p style={{ marginRight: 'auto', paddingLeft: '1.5rem' }}>
+                  Items: {quantity}
+                </p>
+                <p style={{ marginRight: '10px' }}>
+                  Total: $
+                  <span
+                    style={{
+                      textDecorationLine: couponApplied ? 'line-through' : '',
+                    }}
+                  >
+                    {parseFloat(total).toFixed(2)}
+                  </span>{' '}
+                </p>
+                {couponApplied && (
+                  <span
+                    style={{
+                      margin: '0px 8px',
+                      color: couponApplied ? 'red' : '',
+                    }}
+                  >
+                    ${parseFloat(newPrice).toFixed(2)}
+                  </span>
+                )}
               </div>
             </Paper>
           </Grid>
@@ -246,6 +343,51 @@ const OrderSummary = () => {
                   </div>
                 </>
               )}
+              {couponApplied && (
+                <Grid item container alignItems='center'>
+                  <div style={{ margin: '10px 0px' }} className=''>
+                    <p style={{ color: 'red' }}>
+                      {applied.value}% coupon applied{' '}
+                      <span>
+                        <IconButton onClick={() => setCouponApplied(false)}>
+                          <CloseIcon htmlColor='red' />
+                        </IconButton>
+                      </span>
+                    </p>
+                  </div>
+                </Grid>
+              )}
+              <Grid
+                item
+                container
+                alignItems='center'
+                style={{ height: '80px' }}
+              >
+                <Grid item xs={8}>
+                  <TextField
+                    style={{ width: '100%' }}
+                    label='Coupon Code'
+                    value={coupon}
+                    error={error}
+                    helperText={couponError}
+                    variant='outlined'
+                    onChange={(e) => setCoupon(e.target.value)}
+                    inputProps={{ style: { textTransform: 'uppercase' } }}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Button
+                    fullWidth
+                    onClick={handleCoupon}
+                    color='secondary'
+                    style={{ height: '100%', padding: '16px 4px' }}
+                    variant='contained'
+                  >
+                    Apply
+                  </Button>
+                </Grid>
+              </Grid>
+              <div className='coupon'></div>
               <div ref={paypal} className='payment_btn'>
                 {loadState.loaded && (
                   <PayPalButton

@@ -17,6 +17,7 @@ const orderSchema = mongoose.Schema(
     trackingNumber: { type: String, dafault: null },
     deliveredOn: { type: String, dafault: null },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    coupon: { type: String, default: null },
   },
   { timestamps: true }
 );

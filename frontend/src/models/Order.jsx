@@ -10,7 +10,8 @@ class Order {
     isDelivered = false,
     trackingNumber = null,
     deliveredOn = null,
-    user
+    user,
+    coupon
   ) {
     this.customer = customer;
     this.shippingAddress = shippingAddress;
@@ -23,6 +24,7 @@ class Order {
     this.trackingNumber = trackingNumber;
     this.deliveredOn = deliveredOn;
     this.user = user;
+    this.coupon = coupon;
   }
 }
 

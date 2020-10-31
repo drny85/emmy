@@ -30,7 +30,7 @@ export const login = ({ email, password }) => async (dispatch) => {
   try {
     setLoading();
     const { data } = await axios.post('/api/users/login', { email, password });
-    console.log('here', data);
+
     dispatch({ type: USER_LOGIN, payload: data });
     localStorage.setItem('emmyUserData', JSON.stringify(data));
   } catch (error) {

@@ -54,6 +54,17 @@ const AdminPage = ({ history }) => {
             </div>
           </Paper>
         </Grid>
+        <Grid item xs={12} sm={6} lg={4}>
+          <Paper
+            elevation={5}
+            onClick={() => goToPage('admin/coupons')}
+            className='admin_tile'
+          >
+            <div className='title'>
+              <h4>Manage Coupons</h4>
+            </div>
+          </Paper>
+        </Grid>
       </Grid>
     </Container>
   );

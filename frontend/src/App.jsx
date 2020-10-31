@@ -25,6 +25,7 @@ import OrderSummary from './pages/shopping/OrderSummary';
 import MyOrders from './pages/shopping/MyOrders';
 import OrderDetails from './pages/orders/OrderDetails';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
+import CouponsPage from './pages/admin/CouponsPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -86,6 +87,7 @@ function App() {
             <Route path='/orders/:id' component={OrderDetails} />
             <Route path='/orders' component={MyOrders} />
             <Route path='/order-summary' component={OrderSummary} />
+            <Route path='/admin/coupons' component={CouponsPage} />
             <Route path='/admin/category' component={CategoryPage} />
             <Route path='/admin/orders' component={AdminOrdersPage} />
             <Route path='/admin/products' component={ProductList} />
